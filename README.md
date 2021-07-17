@@ -1,20 +1,65 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+</p>
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Description
+Proyecto base para la construcción de microservicios [Nest](https://github.com/nestjs/nest) con lineamientos clean architecture
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Installation
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+```bash
+$ npm install
+```
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
+## Support
+
+El presente proyecto se implementa cómo código base para la implementación de microservicios usando el framework [Nest](https://github.com/nestjs/nest) con lineamientos clean architecture. Se crean clases base y se referencian librerías básicas para su funcionamiento.
+
+## Módulos del proyecto:
+
+- common
+  Módulo transversal en el cual se define la configuración, librerías, enumeradores, útilidades.
+
+- controller
+  Modulo en el cual se definen los paths o funcionalidades que expone el servicio
+
+- core
+  Módulo en el cual se implementa la lógica de negocio (use cases)
+
+- data provider
+  Módulo que controla la conexión a legados, base de datos y servicios con los cuales se tiene comunicación
+
+
+## Stay in touch
+
+- Author - [Oscar Alvarez](https://kamilmysliwiec.com)
+
+## License
+
+Nest is [MIT licensed](LICENSE).
