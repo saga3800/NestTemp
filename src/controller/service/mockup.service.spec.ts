@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockupService } from './mockup.service';
+import { MockupService } from './impl/mockup.service.impl';
+import { IMockupService } from './mockup.service';
 
 describe('MockupService', () => {
   let service: MockupService;
