@@ -4,8 +4,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import rTracer = require('cls-rtracer')
 import { ExceptionManager } from './common/lib/exceptions-manager.filter';
+import generalConfig from './common/configuration/general.config';
 
 async function bootstrap() {
+  const PORT = generalConfig.port;
   const app = await NestFactory.create(AppModule, {
     cors: true,
     bufferLogs: true
@@ -23,7 +25,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerconfig);
   SwaggerModule.setup('api-doc', app, document);
-  
-  await app.listen(3000, () => Logger.log("Microservice is listening on port 3000"));
+
+  await app.listen(PORT, () => Logger.log(`Microservice is listening on port ${PORT}`));
 }
 bootstrap();
