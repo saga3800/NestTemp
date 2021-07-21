@@ -15,13 +15,13 @@ async function bootstrap() {
   app.use(rTracer.expressMiddleware())
   app.useGlobalFilters(new ExceptionManager());
 
-  const config = new DocumentBuilder()
+  const swaggerconfig = new DocumentBuilder()
     .setTitle('Api Template example')
     .setDescription('The template API description')
     .setVersion('1.0')
     .addTag('Ecommerce V9')
     .build();
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, swaggerconfig);
   SwaggerModule.setup('api-doc', app, document);
   
   await app.listen(3000, () => Logger.log("Microservice is listening on port 3000"));
