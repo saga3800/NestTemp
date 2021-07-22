@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, NotFoundException, NotImplementedException } from "@nestjs/common";
+import { ArgumentsHost, BadRequestException, Catch, ExceptionFilter, HttpException, HttpStatus, NotFoundException, NotImplementedException } from "@nestjs/common";
 import { Request, Response } from 'express';
 import { ResponseService } from "src/controller/dto/response-service.dto";
 import { BusinessException } from './business-exceptions';
@@ -18,15 +18,15 @@ export class ExceptionManager implements ExceptionFilter {
       console.error('exception => ', exception);
       result = new ResponseService(false, exception.description, exception.code, exception.details);
     }
-    else if (exception instanceof NotImplementedException || exception instanceof NotFoundException)
-      result = new ResponseService(false, 'Metodo no implementado en el servicio.', exception.getStatus() | HttpStatus.NOT_IMPLEMENTED);
+    else if (exception instanceof HttpException)
+      result = new ResponseService(false, exception?.getResponse()['error'], exception.getStatus(), exception?.getResponse()['message']);
     else
-      result = new ResponseService(false, exception.message, exception.getStatus() | HttpStatus.INTERNAL_SERVER_ERROR);
-
+      result = new ResponseService(false, exception.message || 'Ocurrió un error del lado del servidor', exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR);
+  
     console.error('exception result => ', result);
 
-    response
+  response
       .status(result.status)
       .json(result);
-  }
+}
 }

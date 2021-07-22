@@ -6,12 +6,16 @@ export class Pagination {
     readonly previousPageIndex?: number;
     readonly nextPageIndex?: number;
     readonly totalPages?: number;
+    readonly pageIndex: number;
+    readonly pageSize: number
 
-    constructor(readonly totalDocuments: number, readonly pageIndex: number, readonly pageSize: number) {
-        const tp = Math.trunc(totalDocuments / pageSize);
-        this.totalPages = ((totalDocuments % pageSize) > 0) ? (tp + 1) : tp;
-        this.previousPageIndex = (pageIndex > 1) ? (pageIndex - 1) : null;
-        this.nextPageIndex = (pageIndex < this.totalPages) ? pageIndex + 1 : null;
+    constructor(readonly totalDocuments: number, _pageIndex: number, _pageSize: number) {
+        this.pageIndex = +_pageIndex;
+        this.pageSize = +_pageSize;
+        const tp = Math.trunc(totalDocuments / this.pageSize);
+        this.totalPages = ((totalDocuments % this.pageSize) > 0) ? (tp + 1) : tp;
+        this.previousPageIndex = (this.pageIndex > 1) ? (this.pageIndex - 1) : null;
+        this.nextPageIndex = (this.pageIndex < this.totalPages) ? this.pageIndex + 1 : null;
     }
 }
 
