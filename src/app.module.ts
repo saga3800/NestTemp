@@ -5,10 +5,10 @@ import { ExceptionManager } from './common/lib/exceptions-manager.filter';
 import { ControllerModule } from './controller/controller.module';
 import { RequestHttpInterceptor } from './controller/interceptor/request-http.interceptor';
 import { CoreModule } from './core/core.module';
-import { DataProviderModule } from './data-provider/data-provider.module';
+// import { DataProviderModule } from './data-provider/data-provider.module';
 
 @Module({
-  imports: [CommonModule, DataProviderModule, CoreModule, ControllerModule],
+  imports: [CommonModule, CoreModule, ControllerModule],
   controllers: [],
   providers: [
     {
@@ -16,8 +16,9 @@ import { DataProviderModule } from './data-provider/data-provider.module';
       useClass: ExceptionManager,
     },
     {
-        provide: APP_INTERCEPTOR,
-        useClass: RequestHttpInterceptor,
-    }],
+      provide: APP_INTERCEPTOR,
+      useClass: RequestHttpInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { DataProviderModule } from 'src/data-provider/data-provider.module';
+// import { DataProviderModule } from 'src/data-provider/data-provider.module';
 
 @Module({
     imports: [
-        DataProviderModule,
+       // DataProviderModule,
       ],
       providers: [
         //{ provide: interface, useClass: implement use case },
