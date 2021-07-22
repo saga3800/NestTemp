@@ -122,6 +122,12 @@ objects:
           env:
           - name: "PORT"
             value: "#{Template.Port}#"
+          - name: "API_MAPPING"
+            value: "#{Template.ApiMapping}#"
+          - name: "PORAPI_VERSIONT"
+            value: "#{Template.ApiVersion}#"
+          - name: "CONTROLLER"
+            value: "#{Template.Controller}#"
           - name: "MONGO_URL"
             value: "#{Template.mongoUrl}#"
           - name: "LOG_LEVEL"

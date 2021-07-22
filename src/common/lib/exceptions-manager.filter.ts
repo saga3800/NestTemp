@@ -9,23 +9,19 @@ export class ExceptionManager implements ExceptionFilter {
   // ...
   catch(exception, host: ArgumentsHost) {
 
-    console.error('exception => ', exception);
-
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
 
     let result: ResponseService;
 
-    if (exception instanceof BusinessException)
-      result = new ResponseService(false, exception.description, exception.code, exception.details)
+    if (exception instanceof BusinessException) {
+      console.error('exception => ', exception);
+      result = new ResponseService(false, exception.description, exception.code, exception.details);
+    }
     else if (exception instanceof NotImplementedException || exception instanceof NotFoundException)
       result = new ResponseService(false, 'Metodo no implementado en el servicio.', exception.getStatus() | HttpStatus.NOT_IMPLEMENTED);
     else
       result = new ResponseService(false, exception.message, exception.getStatus() | HttpStatus.INTERNAL_SERVER_ERROR);
-
-
-    result.origen = request.url;
 
     console.error('exception result => ', result);
 

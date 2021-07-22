@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MockupController } from './mockup.controller';
-import { MockupService } from './service/mockup.service';
+import { MockupService } from './service/impl/mockup.service.impl';
+import { IMockupService } from './service/mockup.service';
 
 describe('MockupController', () => {
   let controller: MockupController;

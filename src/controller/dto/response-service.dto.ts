@@ -13,8 +13,8 @@ export class ResponseService<T = any> {
     constructor(
         public success: boolean = true,
         public message: string = 'Execution successfully',
-        public documents?: T,
-        public status: number = 200
+        public status: number = 200,
+        public documents?: T
     ) {
         this.process = utils.getCorrelationalId;
     }

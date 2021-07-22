@@ -7,7 +7,7 @@ import { ExceptionManager } from './common/lib/exceptions-manager.filter';
 import generalConfig from './common/configuration/general.config';
 
 async function bootstrap() {
-  const PORT = generalConfig.port;
+  const port = generalConfig.port;
   const app = await NestFactory.create(AppModule, {
     cors: true,
     bufferLogs: true
@@ -26,6 +26,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerconfig);
   SwaggerModule.setup('api-doc', app, document);
 
-  await app.listen(PORT, () => Logger.log(`Microservice is listening on port ${PORT}`));
+  await app.listen(port, () => Logger.log(`Microservice is listening on port ${port}`));
 }
 bootstrap();
