@@ -22,7 +22,7 @@ export class RiskProviderImpl implements IRiskProvider {
    */
 
   async consumeRiskMSRisk(data) {
-    let respuesta;
+    let response;
     let objReq = {
       correo: data.InfoUser.email,
       tipoDoc: data.InfoUser.typeDocument,
@@ -35,9 +35,9 @@ export class RiskProviderImpl implements IRiskProvider {
       .pipe(map((response) => response.data));
 
     await service.forEach((res) => {
-      respuesta = res;
+      response = res;
     });
 
-    return respuesta;
+    return response;
   }
 }

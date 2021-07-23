@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { RiskFlowReqDTO } from "../dto";
-
-
+import { RiskFlowReqDTO, ResponseService } from "../dto";
 @Injectable()
 export abstract class IRiskService {
 
-   constructor(){}
-
-   abstract validateRiskAnalysis(data:RiskFlowReqDTO);
+   abstract validateRiskAnalysis(data:RiskFlowReqDTO):Promise<ResponseService>;
 
 }

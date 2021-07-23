@@ -5,10 +5,10 @@ metadata:
   name: ${NAME}
   annotations:
     openshift.io/display-name: Node.js
-    description: MSCustomeAdmin Ecommerce V9
+    description: MSAuthorizaEntFraud Ecommerce V9
     tags: instalacion,install,nodejs
     iconClass: icon-nodejs
-    openshift.io/long-description: Esta plantilla define los recursos necesarios para una aplicación NodeJS, incluida una configuración de compilación y una configuración de implementación de la aplicación. No incluye una base de datos.
+    openshift.io/long-description: Este microservicio analiza el riesgo al adquirir un plan
     openshift.io/provider-display-name: Red Hat, Inc.
     template.openshift.io/bindable: 'false'
 message: |-

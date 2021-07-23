@@ -25,8 +25,9 @@ export class ExceptionManager implements ExceptionFilter {
     if (exception instanceof BusinessException)
       result = new ResponseService(
         false,
-        exception.description,
+        '',
         exception.code,
+        exception.description,
         exception.details,
       );
     else if (
@@ -35,17 +36,21 @@ export class ExceptionManager implements ExceptionFilter {
     )
       result = new ResponseService(
         false,
+        '',
+        exception.getStatus(),
         'Metodo no implementado en el servicio.',
         exception.getStatus() | HttpStatus.NOT_IMPLEMENTED,
-      );
+        );
     else
       result = new ResponseService(
         false,
+        '',
+        exception.getStatus(),
         exception.message,
         exception.getStatus() | HttpStatus.INTERNAL_SERVER_ERROR,
       );
 
-    result.origen = request.url;
+    result.origin = request.url;
 
     console.error('exception result => ', result);
 
