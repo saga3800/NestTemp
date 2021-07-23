@@ -1,8 +1,8 @@
 {
-  "name": "MSTemplateNestJs",
+  "name": "MSAuthorizatEntFraud",
   "version": "0.0.1",
-  "description": "Proyecto base para la construcción de microservicios nestjs con lineamientos clean architecture",
-  "author": "Oscar Alvarez",
+  "description": "Microservicio riesgo",
+  "author": "",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

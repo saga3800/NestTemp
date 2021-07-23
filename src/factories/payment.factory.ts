@@ -2,6 +2,7 @@ import UtilConfig from '../common/utils/utils';
 
 export class PaymentFactory {
   static requestServicePayment(data) {
+    const homologateTypeDoc = UtilConfig.homolgateTypeDoc(data.InfoUser.typeDocument);
     const xmlRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:v2="http://www.ericsson.com/esb/data/generico/CommonTypes/v2/" xmlns:v1="http://www.ericsson.com/esb/message/paymentReferencesMgtm/getPaymentReferencesRequest/v1.0">
         <soapenv:Header>
            <v2:headerRequest>
@@ -31,13 +32,9 @@ export class PaymentFactory {
               <!--Optional:-->
               <subscriberNumber></subscriberNumber>
               <!--Optional:-->
-              <identificationType>${UtilConfig.homolgateTypeDoc(
-                data.InfoUser.typeDocument,
-              )}</identificationType>
+              <identificationType>${homologateTypeDoc}</identificationType>
               <!--Optional:-->
-              <identificationNumber>${
-                data.InfoUser.numberDocument
-              }</identificationNumber>
+              <identificationNumber>${data.InfoUser.numberDocument}</identificationNumber>
               <!--Optional:-->
               <accountNumber></accountNumber>
               <!--Optional:-->
