@@ -3,7 +3,7 @@ trigger:
   - develop
 
 variables:
-  artifact_name: _ci-ms-template #MODIFICAR
+  artifact_name: _ci-ms-authoriza-entfraud
 
 pool:
   name: vsts-agent-test-20

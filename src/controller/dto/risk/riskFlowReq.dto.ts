@@ -1,16 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsBoolean, IsObject, Length, Max, Min } from "class-validator";
+import { IsArray, IsBoolean, IsObject, IsString, Length, Max, Min, ValidateNested } from "class-validator";
 
- 
 export class RiskFlowReqDTO {
-    @ApiProperty({  type: 'array', required: false, description: "Identificador" })
+    @ApiProperty({  type: 'array', required: false, description: "" })
     @IsArray()
     flow: [];
-    @ApiProperty({  type: 'number', required: false, description: "Identificador" })
+    @ApiProperty({  type: 'boolean', required: false, description: "" })
     @IsBoolean()
     isMigratedUser: boolean;
-    @ApiProperty({  type: 'number', required: false, description: "Identificador" })
+    @ApiProperty({  type: 'object', required: false, description: "" })
     @IsObject()
+    @ValidateNested({ each: true })
     InfoUser: {  
       typeDocument: string;
       numberDocument: string;
@@ -20,6 +20,6 @@ export class RiskFlowReqDTO {
       firstLastName: string;
       email: string;
       telephoneNumber: string;
-    };
+    }
   }
   

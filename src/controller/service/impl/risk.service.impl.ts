@@ -51,7 +51,7 @@ export class RiskService implements IRiskService {
 
   async validateRiskAnalysis(data: RiskFlowReqDTO) {
     const vPlans = this.utilConfig.validateFlow(data);
-    console.log(vPlans[0]);
+    // console.log(vPlans[0]);
     await this.validatePaymentService(data);
 
     const numDoc = data.InfoUser.numberDocument;
@@ -78,7 +78,7 @@ export class RiskService implements IRiskService {
   async validatePaymentService(data){
 
     const resPay = await this.paymentProvider.consumePaymentReferencesMgmt(data);
-    console.log(resPay);
+    // console.log(resPay);
     return resPay;
   }
 
