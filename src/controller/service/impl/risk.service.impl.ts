@@ -78,7 +78,6 @@ export class RiskService implements IRiskService {
   async validatePaymentService(data){
 
     const resPay = await this.paymentProvider.consumePaymentReferencesMgmt(data);
-    // console.log(resPay);
     return resPay;
   }
 
