@@ -1,7 +1,7 @@
 {
   "name": "MSAuthorizatEntFraud",
   "version": "0.0.1",
-  "description": "Microservicio riesgo",
+  "description": "Sera el encargado de validar el riesgo del cliente, según el camino a tomar (Inspira o Operación)",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

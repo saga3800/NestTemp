@@ -12,7 +12,7 @@ import { IRiskService } from '../controller/service/risks.service';
 import { RiskFlowReqDTO } from './dto';
 
 import urlConfig from '../common/configuration/general.config';
-@Controller(urlConfig.apiVersion + urlConfig.apiMapping)
+@Controller(`${urlConfig.apiVersion}${urlConfig.controllerRisk}`)
 export class RiskController {
 
   constructor(private readonly riskService: IRiskService) {}

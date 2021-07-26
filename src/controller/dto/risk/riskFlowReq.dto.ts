@@ -10,7 +10,6 @@ export class RiskFlowReqDTO {
     isMigratedUser: boolean;
     @ApiProperty({  type: 'object', required: false, description: "" })
     @IsObject()
-    @ValidateNested({ each: true })
     InfoUser: {  
       typeDocument: string;
       numberDocument: string;
