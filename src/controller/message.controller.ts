@@ -4,7 +4,9 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Put,
+  Query,
 } from '@nestjs/common';
 import generalConfig from 'src/common/configuration/general.config';
 import { MethodMessage } from 'src/common/utils/enums/mapping-api-rest';
@@ -27,8 +29,12 @@ export class MessageController {
   }
 
   @Get(MethodMessage.GETALL)
-  getAll() {
-    return this._messageService.getMessages();
+  getAll(
+    @Query('page', ParseIntPipe) _page: number = 1,
+    @Query('limit', ParseIntPipe) _limit: number = 1,
+    @Query('filter') _filter: any = '{}',
+  ) {
+    return this._messageService.getMessages(_page, _limit, _filter);
   }
 
   @Put(MethodMessage.UPDATE)

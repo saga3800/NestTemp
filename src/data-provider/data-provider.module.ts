@@ -9,12 +9,13 @@ import { MessageProvider } from './provider/message.provider.impl';
 
 @Module({
     imports: [
-        //Coinexión a base de datos
+        //Conexión a base de datos
         MongooseModule.forRoot(databaseConfig.databse,
             {
                 retryAttempts: 3,
                 useCreateIndex: true,
-                useFindAndModify: false
+                useFindAndModify: false,
+                autoCreate: true,
             }),
         MongooseModule.forFeature([
             { name: MessageModel.name, schema: MessageSchema, collection: 'coll_message' },

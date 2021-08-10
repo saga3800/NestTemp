@@ -9,6 +9,6 @@ export abstract class IMessageService {
 
     abstract getById(idMessage: string): Promise<ResponseService>;
 
-    abstract getMessages(): Promise<ResponseService>;
+    abstract getMessages(page: number, limit: number, filter: any): Promise<ResponseService>;
 
 }

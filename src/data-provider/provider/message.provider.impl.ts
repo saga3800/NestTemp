@@ -13,8 +13,14 @@ export class MessageProvider implements IMessageProvider {
     ) { }
 
 
-    async getMessages(): Promise<IMessage[]> {
-        return await this.messageModel.find();
+    async getTotal(filter: any): Promise<number> {
+        return await this.messageModel.countDocuments(filter);
+    }
+    
+    async getMessages(page: number, limit: number, filter: any, projection: any = {}): Promise<IMessage[]> {
+        return await this.messageModel.find(filter, projection)
+            .skip(limit * (page - 1))
+            .limit(limit);
     }
 
 

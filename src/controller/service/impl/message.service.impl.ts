@@ -31,11 +31,14 @@ export class MessageService implements IMessageService {
     );
   }
 
-  async getMessages(): Promise<ResponseService<IMessage[]>> {
-    const result: IMessage[] = await this._messageUC.getMessages();
+  async getMessages(page: number, limit: number, filter: any): Promise<ResponseService<any>> {
+    // Mapeo de los campos de filtrado
+    const _filter: object = JSON.parse(filter);
+
+    const result = await this._messageUC.getMessages(page, limit, _filter);
     return new ResponseService(
       true,
-      result?.length > 0
+      result
         ? 'Consulta ejecutada correctamente.'
         : 'No se encontraron mensajes configurados en la base de datos.',
       200,
