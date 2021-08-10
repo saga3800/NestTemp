@@ -3,6 +3,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import databaseConfig from '../common/configuration/database.config';
 import servicesConfig from '../common/configuration/services.config';
+import { IMessageProvider } from './message.provider';
+import { MessageModel, MessageSchema } from './model/message.model';
+import { MessageProvider } from './provider/message.provider.impl';
 
 @Module({
     imports: [
@@ -14,7 +17,7 @@ import servicesConfig from '../common/configuration/services.config';
                 useFindAndModify: false
             }),
         MongooseModule.forFeature([
-            //{ name: model.name, schema: ModelSchema, collection: 'collection_name' },
+            { name: MessageModel.name, schema: MessageSchema, collection: 'coll_message' },
         ]),
         HttpModule.registerAsync({
             useFactory: () => (
@@ -23,10 +26,10 @@ import servicesConfig from '../common/configuration/services.config';
         })
     ],
     providers: [
-        // { provide: interface, useClass: implements provider }
+        { provide: IMessageProvider, useClass: MessageProvider }
     ],
     exports: [
-        //interfaces
+        IMessageProvider
     ]
 })
 export class DataProviderModule { }

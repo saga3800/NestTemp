@@ -1,3 +1,5 @@
+import { EmessageMapping } from "src/common/utils/enums/message.enum";
+import UtilMessage from "src/common/utils/message.util";
 import utils from "src/common/utils/utils";
 
 /**
@@ -8,16 +10,18 @@ export class ResponseService<T = any> {
     public responseTime?: number;
     public requestTime?: Date;
     public origen?: string;
+    public message: string;
     public readonly process?: string;
 
     constructor(
         public success: boolean = true,
-        public message: string = 'Execution successfully',
+        message: EmessageMapping | string = EmessageMapping.DEFAULT,
         public status: number = 200,
         public documents?: T
     ) {
         this.process = utils.getCorrelationalId;
+        this.message = UtilMessage.mappingMessage(EmessageMapping[message]) || message;
     }
 
-    
+
 }

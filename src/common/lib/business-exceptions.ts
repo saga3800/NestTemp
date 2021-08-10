@@ -1,3 +1,4 @@
+import { EmessageMapping } from "../utils/enums/message.enum";
 import { Etask } from "../utils/enums/taks.enum";
 
 export class BusinessException {
@@ -5,10 +6,15 @@ export class BusinessException {
   constructor(
     public readonly code: number,
     public readonly description: string,
-    public readonly context?: string,
-    public readonly task?: Etask,
-    public readonly details?: any,
+    public readonly success: boolean = false,
+    public readonly details?: IoptionalDetails
   ) { }
 
 }
 
+export interface IoptionalDetails {
+  readonly codMessage?: EmessageMapping;
+  readonly context?: string;
+  readonly task?: Etask;
+  readonly document?: any;
+}

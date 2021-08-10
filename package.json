@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@claro/logging-library": "^1.0.0",
-    "@nestjs/axios": "0.0.1",
+    "@nestjs/axios": "^0.0.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/mongoose": "^8.0.0",
