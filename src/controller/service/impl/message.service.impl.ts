@@ -40,7 +40,7 @@ export class MessageService implements IMessageService {
       true,
       result
         ? 'Consulta ejecutada correctamente.'
-        : 'No se encontraron mensajes configurados en la base de datos.',
+        : 'No se encontraron datos.',
       200,
       result,
     );
