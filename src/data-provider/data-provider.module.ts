@@ -1,7 +1,8 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MESSAGE } from 'src/common/configuration/messages/message-config';
+import { CoreModule } from 'src/core/core.module';
+import { IMessageUc } from 'src/core/use-case/message.uc';
 import databaseConfig from '../common/configuration/database.config';
 import servicesConfig from '../common/configuration/services.config';
 import { IHttpProvider } from './http.provider';
@@ -40,6 +41,7 @@ import { ITraceabilityProvider } from './traceability.provider';
     HttpModule.registerAsync({
       useFactory: () => servicesConfig.httpConfig,
     }),
+    forwardRef(() => CoreModule)
   ],
   providers: [
     { provide: IMessageProvider, useClass: MessageProvider },
@@ -47,14 +49,10 @@ import { ITraceabilityProvider } from './traceability.provider';
     { provide: IHttpProvider, useClass: HttpProvider },
     {
       provide: 'VerifyMessages',
-      useFactory: async (messageProvider: IMessageProvider) => {
-        const num = await messageProvider.getTotal({});
-        if (num == 0) {
-          // Si no hay mensajes en bd, se crean los mensajes por defecto
-          await messageProvider.createMessages(MESSAGE);
-        }
+      useFactory: async (messageUC: IMessageUc) => {
+        await messageUC.loadMessages();
       },
-      inject: [IMessageProvider]
+      inject: [IMessageUc]
     },
   ],
   exports: [IMessageProvider, ITraceabilityProvider, 'VerifyMessages'],
