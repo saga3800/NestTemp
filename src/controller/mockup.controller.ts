@@ -3,12 +3,13 @@ import { IMockupService } from './service/mockup.service';
 import { CreateMockupDto } from './dto/mockup/create-mockup.dto';
 import { UpdateMockupDto } from './dto/mockup/update-mockup.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import generalConfig from 'src/common/configuration/general.config';
 
 /**
  * En el controlador se definen los metodos a exponer por parte del servicio
  * En caso de que el servicio requiera paths diferentes, se debe crear un controller por cada path 
  */
-@Controller('mockup')
+ @Controller(`${generalConfig.apiVersion}${generalConfig.controllerMockup}`)
 export class MockupController {
 
   //En el constructor se injecta la definición del service que procesará la petición. No se debe hacer un llamado directo a la implementación

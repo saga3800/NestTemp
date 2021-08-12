@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsNumber, IsOptional, IsString, Length, Max, Min } from "class-validator";
+import { IsNumber, IsOptional, IsString, Length, Max, Min, ValidateIf } from "class-validator";
+
+
 export class CreateMockupDto {
     
-    @ApiProperty({  type: 'number', required: false, description: "Identificador" })
+    @ApiProperty({ type: 'number', required: false, description: "Identificador" })
+    @ValidateIf(v => v.id != null)
     @IsOptional()
     @IsNumber()
     @Min(1)

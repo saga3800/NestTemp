@@ -1,28 +1,22 @@
 import { Module } from '@nestjs/common';
-import { HttpModule } from '@nestjs/axios';
 import { CoreModule } from 'src/core/core.module';
-
-import { RiskController } from './risk.controller';
-import { IRiskService } from './service/risks.service';
-import { RiskService } from './service/impl/risk.service.impl';
-
-import { IRiskProvider } from '../data-provider/risk/risk.provider';
-import { RiskProviderImpl } from '../data-provider/risk/impl/risk.provider.impl';
-
-import { IPaymentProvider } from '../data-provider/payments/payment.provider';
-import { PaymentReferencesMgmtImpl } from '../data-provider/payments/impl/payment.provider.impl';
-
-// import { MockupController } from './mockup.controller';
-//import { IMockupService } from './service/mockup.service';
-//import { MockupService } from './service/impl/mockup.service.impl';
+import { MockupController } from './mockup.controller';
+import { IMockupService } from './service/mockup.service';
+import { MockupService } from './service/impl/mockup.service.impl';
+import { MessageController } from './message.controller';
+import { IMessageService } from './service/message.service';
+import { MessageService } from './service/impl/message.service.impl';
+import { TraceabilityController } from './traceability.controller';
+import { ITraceabilityService } from './service/traceability.service';
+import { TraceabilityService } from './service/impl/traceability.service.impl';
 
 @Module({
-  imports: [CoreModule, HttpModule],
-  controllers: [RiskController],
+  imports: [CoreModule],
+  controllers: [MockupController, MessageController, TraceabilityController],
   providers: [
-    { provide: IRiskService, useClass: RiskService },
-    { provide: IRiskProvider, useClass: RiskProviderImpl },
-    { provide: IPaymentProvider, useClass: PaymentReferencesMgmtImpl },
+    { provide: IMockupService, useClass: MockupService },
+    { provide: IMessageService, useClass: MessageService },
+    { provide: ITraceabilityService, useClass: TraceabilityService }
   ],
 })
 export class ControllerModule {}

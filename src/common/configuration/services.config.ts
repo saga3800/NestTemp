@@ -1,6 +1,6 @@
 export default {
   httpConfig: {
-    timeout: Number(process.env.HTTP_TIMEOUT || 5000),
+    timeout: Number(process.env.HTTP_TIMEOUT || 15000),
   },
   testService: process.env.TEST_SERVICE || 'http:/localhost:8080',
   riskService:process.env.URL_RISK_SERVICE || 'http://ms-risk-orquestadordev.137.116.47.4.nip.io/riesgo/analisis',

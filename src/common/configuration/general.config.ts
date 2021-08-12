@@ -1,9 +1,9 @@
 export default {
-  logLevel: process.env.LOG_LEVEL || 'ALL',
+  apiMapping: process.env.API_MAPPING || '/RSTemplateNestJS',
+  apiVersion: process.env.API_VERSION || 'V1',
+  controllerMessage: process.env.CONTROLLER_MESSAGE || '/Message',
+  controllerTraceability: process.env.CONTROLLER_TRACEABILITY || '/Trace',
+  controllerMockup: process.env.CONTROLLER || '/Mockup',
   port: process.env.PORT || 8080,
-  apiVersion: process.env.API_VERSION || '/V1',
-  apiMapping: process.env.API_MAPPING || 'APIMAutEntiFraudValidate',
-  controllerRisk: process.env.CONTROLLER || '/risks',
-  apiOrigin: process.env.API_ORIGIN || 'APIMAutEntiFraudValidate',
-  riskFraudUrl: process.env.RISK_FRAUD_URL || '/customer/consultfraudlist',
+  logLevel: process.env.LOG_LEVEL || 'ALL',
 };
