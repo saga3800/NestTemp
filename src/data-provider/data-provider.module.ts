@@ -5,6 +5,7 @@ import { CoreModule } from 'src/core/core.module';
 import { IMessageUc } from 'src/core/use-case/message.uc';
 import databaseConfig from '../common/configuration/database.config';
 import servicesConfig from '../common/configuration/services.config';
+import { IHttpPruebaProvider } from './http-prueba.provider';
 import { IHttpProvider } from './http.provider';
 import { IMessageProvider } from './message.provider';
 import { MessageModel, MessageSchema } from './model/message.model';
@@ -12,6 +13,7 @@ import {
   TraceabilityModel,
   TraceabilitySchema,
 } from './model/traceability.model';
+import { HttpPruebaProvider } from './provider/http-prueba.provider.impl';
 import { HttpProvider } from './provider/http.provider.impl';
 import { MessageProvider } from './provider/message.provider.impl';
 import { TraceabilityProvider } from './provider/traceability.provider.impl';
@@ -47,6 +49,7 @@ import { ITraceabilityProvider } from './traceability.provider';
     { provide: IMessageProvider, useClass: MessageProvider },
     { provide: ITraceabilityProvider, useClass: TraceabilityProvider },
     { provide: IHttpProvider, useClass: HttpProvider },
+    { provide: IHttpPruebaProvider, useClass: HttpPruebaProvider },
     {
       provide: 'VerifyMessages',
       useFactory: async (messageUC: IMessageUc) => {
@@ -55,6 +58,6 @@ import { ITraceabilityProvider } from './traceability.provider';
       inject: [IMessageUc]
     },
   ],
-  exports: [IMessageProvider, ITraceabilityProvider, 'VerifyMessages'],
+  exports: [IMessageProvider, ITraceabilityProvider, IHttpPruebaProvider, 'VerifyMessages'],
 })
 export class DataProviderModule {}

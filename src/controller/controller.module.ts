@@ -9,14 +9,18 @@ import { MessageService } from './service/impl/message.service.impl';
 import { TraceabilityController } from './traceability.controller';
 import { ITraceabilityService } from './service/traceability.service';
 import { TraceabilityService } from './service/impl/traceability.service.impl';
+import { HttpPruebaController } from './http-prueba.controller';
+import { IHttpPruebaService } from './service/http-prueba.service';
+import { HttpPruebaService } from './service/impl/http-provider.service.impl';
 
 @Module({
   imports: [CoreModule],
-  controllers: [MockupController, MessageController, TraceabilityController],
+  controllers: [MockupController, MessageController, TraceabilityController, HttpPruebaController],
   providers: [
     { provide: IMockupService, useClass: MockupService },
     { provide: IMessageService, useClass: MessageService },
-    { provide: ITraceabilityService, useClass: TraceabilityService }
+    { provide: ITraceabilityService, useClass: TraceabilityService },
+    { provide: IHttpPruebaService, useClass: HttpPruebaService  }
   ],
 })
 export class ControllerModule {}
