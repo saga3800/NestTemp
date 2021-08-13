@@ -6,4 +6,6 @@ export abstract class IHttpPruebaProvider {
 
     abstract getById(_id: string): Promise<ResponseHttp>;
 
+    abstract getAll(page: number, limit: number): Promise<ResponseHttp>;
+
 }

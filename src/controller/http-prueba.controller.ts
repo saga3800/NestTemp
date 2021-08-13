@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Query } from "@nestjs/common";
 import generalConfig from "src/common/configuration/general.config";
 import { IHttpPruebaService } from "./service/http-prueba.service";
 
@@ -10,4 +10,13 @@ export class HttpPruebaController {
   getById(@Param('id') _id: string) {
     return this._httpPruebaService.getById(_id);
   }
+
+  @Get()
+  getAll(
+    @Query('page', ParseIntPipe) _page: number = 1,
+    @Query('limit', ParseIntPipe) _limit: number = 1
+  ) {
+    return this._httpPruebaService.getAll(_page, _limit);
+  }
+
 }

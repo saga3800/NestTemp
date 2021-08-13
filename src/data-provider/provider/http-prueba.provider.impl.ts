@@ -15,7 +15,7 @@ export class HttpPruebaProvider implements IHttpPruebaProvider {
 
 
     async getById(_id: string): Promise<ResponseHttp<any>> {
-        const url = servicesConfig.testService;
+        const url = `${servicesConfig.testService}/${_id}`;
         const headers = {
             "Connection": "Keep-Alive",
             "Content-Type": "application/json; charset=utf-8",
@@ -24,6 +24,21 @@ export class HttpPruebaProvider implements IHttpPruebaProvider {
         };
         const params = {
             "id": _id
+        };
+
+        return await this.httpProvider.executeRest({ method: EHttpMethod.get, url, params, headers}, Etask.FINDONE);
+    }
+
+    async getAll(page: number, limit: number): Promise<ResponseHttp> {
+        const url = servicesConfig.testService;
+        const headers = {
+            "Connection": "Keep-Alive",
+            "Content-Type": "application/json; charset=utf-8",
+            "Date": Date.now().toString,
+        };
+        const params = {
+            page,
+            limit
         };
 
         return await this.httpProvider.executeRest({ method: EHttpMethod.get, url, params, headers}, Etask.FINDALL);

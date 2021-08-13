@@ -16,4 +16,17 @@ export class HttpPruebaService implements IHttpPruebaService {
         result,
     );
   }
+
+  async getAll(page: number, limit: number): Promise<ResponseService<any>> {
+    const result = await this._httpPruebaUc.getAll(page, limit);
+    return new ResponseService(
+      true,
+      result
+        ? 'Consulta ejecutada correctamente.'
+        : 'No se encontraron datos.',
+      200,
+      result,
+    );
+  }
+
 }

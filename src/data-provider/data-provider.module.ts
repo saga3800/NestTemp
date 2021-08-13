@@ -1,8 +1,6 @@
 import { HttpModule } from '@nestjs/axios';
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CoreModule } from 'src/core/core.module';
-import { IMessageUc } from 'src/core/use-case/message.uc';
 import databaseConfig from '../common/configuration/database.config';
 import servicesConfig from '../common/configuration/services.config';
 import { IHttpPruebaProvider } from './http-prueba.provider';
@@ -43,21 +41,13 @@ import { ITraceabilityProvider } from './traceability.provider';
     HttpModule.registerAsync({
       useFactory: () => servicesConfig.httpConfig,
     }),
-    forwardRef(() => CoreModule)
   ],
   providers: [
     { provide: IMessageProvider, useClass: MessageProvider },
     { provide: ITraceabilityProvider, useClass: TraceabilityProvider },
     { provide: IHttpProvider, useClass: HttpProvider },
-    { provide: IHttpPruebaProvider, useClass: HttpPruebaProvider },
-    {
-      provide: 'VerifyMessages',
-      useFactory: async (messageUC: IMessageUc) => {
-        await messageUC.loadMessages();
-      },
-      inject: [IMessageUc]
-    },
+    { provide: IHttpPruebaProvider, useClass: HttpPruebaProvider }
   ],
-  exports: [IMessageProvider, ITraceabilityProvider, IHttpPruebaProvider, 'VerifyMessages'],
+  exports: [IMessageProvider, ITraceabilityProvider, IHttpPruebaProvider],
 })
 export class DataProviderModule {}
