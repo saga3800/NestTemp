@@ -10,7 +10,13 @@ import { ITraceabilityUc } from './use-case/traceability.uc';
   providers: [
     { provide: IMessageUc, useClass: MessageUcimpl },
     { provide: ITraceabilityUc, useClass: TraceabilityUcimpl },
+    {
+      provide: 'VerifyMessages',
+      useFactory: async (messageUC: IMessageUc) => {
+        await messageUC.loadMessages();
+      }
+    },
   ],
-  exports: [IMessageUc, ITraceabilityUc],
+  exports: [IMessageUc, ITraceabilityUc, 'VerifyMessages'],
 })
 export class CoreModule {}

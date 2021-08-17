@@ -35,8 +35,8 @@ export default class GeneralUtil {
           }],
         });
 
-     return parser.parseStringPromise(xml).then((result) => {
-        console.log('Result JSON transform from XML => \n', JSON.stringify(result) );
+      return parser.parseStringPromise(xml).then((result) => {
+        console.log('Result JSON transform from XML => \n', JSON.stringify(result));
         return JSON.parse(JSON.stringify(result));
       })
         .catch(function (err) {
@@ -76,7 +76,13 @@ export default class GeneralUtil {
     if (Echannel[channel])
       return true;
     else
-      throw new BusinessException(HttpStatus.BAD_REQUEST, (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`, false, { codMessage: EmessageMapping.CHANNEL_ERROR });
+      throw new BusinessException(
+        HttpStatus.BAD_REQUEST,
+        (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
+        false,
+        {
+          codMessage: EmessageMapping.CHANNEL_ERROR
+        });
   }
 
 
@@ -126,7 +132,7 @@ export default class GeneralUtil {
     return `${generalConfig.apiMapping}${(url?.includes('?')) ? url.slice(0, url.indexOf('?')) : url}`;
   }
 
-  
+
   public static getTemplateXML = name => {
     //return FS.readFileSync(`src/common/utils/xmls/${name}.xml`, "utf8");
     const pathfile = path.resolve(`${__dirname}/xmls/${name}.xml`);
@@ -134,12 +140,20 @@ export default class GeneralUtil {
   };
 
 
+  /**
+   * Manejo de mensajes en cache
+   * @param cache 
+   * @param operation 
+   * @param messages 
+   * @param updatedMessage 
+   */
   public static async cacheMessages(
-    cache: Cache, 
-    operation: string, 
-    messages?: IMessage[], 
+    cache: Cache,
+    operation: string,
+    messages?: IMessage[],
     updatedMessage?: IMessage,
   ) {
+
     if (operation == 'update') {
       // Actualizar el mensaje en cache
       var messages = await cache.get<IMessage[]>('messages');
@@ -147,9 +161,9 @@ export default class GeneralUtil {
       messages[messagePosition] = updatedMessage;
     }
     // Almacenar los mensajes en cache
-    cache.set('messages', messages, { ttl: 1800 }); // ttl: 30 min
+    cache.set('messages', messages, { ttl: generalConfig.ttlCahe }); // ttl (expiration time in seconds) 0 To disable expiration of the cache,
   }
-  
+
 }
 
 

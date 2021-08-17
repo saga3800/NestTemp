@@ -1,3 +1,4 @@
+import { MappingStatusCode } from "src/common/configuration/mapping-statuscode";
 import { EmessageMapping } from "src/common/utils/enums/message.enum";
 import UtilMessage from "src/common/utils/message.util";
 import utils from "src/common/utils/utils";
@@ -16,7 +17,7 @@ export class ResponseService<T = any> {
     constructor(
         public success: boolean = true,
         message: EmessageMapping | string = EmessageMapping.DEFAULT,
-        public status: number = 200,
+        public status: MappingStatusCode = MappingStatusCode.SUCCESS,
         public documents?: T
     ) {
         this.process = utils.getCorrelationalId;

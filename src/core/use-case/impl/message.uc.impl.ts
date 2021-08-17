@@ -12,6 +12,8 @@ import { MESSAGE } from 'src/common/configuration/messages/message-config';
 @Injectable()
 export class MessageUcimpl implements IMessageUc {
 
+    private static messages: IMessage[];
+
     constructor(
         @Inject(CACHE_MANAGER) public readonly cacheManager: Cache,
         public readonly _messageProvider: IMessageProvider
@@ -19,15 +21,23 @@ export class MessageUcimpl implements IMessageUc {
 
 
     async loadMessages(): Promise<IMessage[]> {
-        const totalMessages = await this._messageProvider.getTotal({});
-        if (totalMessages == 0) {
-            // Si no hay mensajes en bd, se crean los mensajes por defecto
-            const result = await this._messageProvider.createMessages(MESSAGE);
-            if (result) {
-                // Si se guarda en bd, guardar también en cache
-                GeneralUtil.cacheMessages(this.cacheManager, 'create', MESSAGE);
-                return MESSAGE;
+        try {
+            //Se valida si existe la colección de mensajes y si tiene datos
+            const totalMessages = await this._messageProvider.getTotal({});
+            if (totalMessages == 0) {
+                // Si no hay mensajes en bd, se crean los mensajes por defecto
+                const result = await this._messageProvider.createMessages(MESSAGE);
+                if (result) {
+                    // Si se guarda en bd, guardar también en cache
+                    GeneralUtil.cacheMessages(this.cacheManager, 'create', MESSAGE);
+                    return MESSAGE;
+                }
             }
+        } catch (error) {
+
+        }
+        finally {
+            MessageUcimpl.messages = MESSAGE;
         }
     }
 
@@ -35,7 +45,7 @@ export class MessageUcimpl implements IMessageUc {
         const result = await this._messageProvider.updateMessage(message);
         if (result == null)
             throw new BusinessException(400, 'No existe un mensaje con el código indicado', true);
-        
+
         // Si se actualiza en bd, también en cache
         GeneralUtil.cacheMessages(this.cacheManager, 'update', undefined, message);
         return result;
@@ -49,15 +59,15 @@ export class MessageUcimpl implements IMessageUc {
         if (filter != {}) {
             const total: number = await this._messageProvider.getTotal(filter);
             if (total == 0)
-               throw new BusinessException(400, 'No se encontró información con los filtros indicados');
+                throw new BusinessException(400, 'No se encontró información con los filtros indicados');
         }
-   
+
         const documents = await this._messageProvider.getMessages(
             page,
             limit,
             filter
         );
-   
+
         return new ResponsePaginator(documents, page, limit);
     }
 
