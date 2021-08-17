@@ -10,11 +10,3 @@ export enum MethodMessage {
     GETALL = '/',
     UPDATE = '/:Id'
 }
-
-export enum MethodTraceability {
-    CREATE = '/',
-    GETBYID = '/:Id',
-    GETALL = '/',
-    UPDATE = '/:Id',
-    DELETE = '/'
-}

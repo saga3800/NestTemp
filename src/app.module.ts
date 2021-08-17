@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { ExceptionManager } from './common/lib/exceptions-manager.filter';
@@ -8,7 +8,7 @@ import { CoreModule } from './core/core.module';
 import { DataProviderModule } from './data-provider/data-provider.module';
 
 @Module({
-  imports: [CommonModule, DataProviderModule, CoreModule, ControllerModule, CacheModule.register()],
+  imports: [CommonModule, DataProviderModule, CoreModule, ControllerModule],
   controllers: [],
   providers: [
     {
