@@ -1,6 +1,6 @@
 import { EmessageMapping } from "src/common/utils/enums/message.enum";
-import UtilMessage from "src/common/utils/message.util";
 import utils from "src/common/utils/utils";
+import { MessageService } from "../service/impl/message.service.impl";
 
 /**
  * Clase base para el manejo de respuesta de todos los metodos que se exponen por el controlador
@@ -20,7 +20,7 @@ export class ResponseService<T = any> {
         public documents?: T
     ) {
         this.process = utils.getCorrelationalId;
-        this.message = UtilMessage.mappingMessage(EmessageMapping[message]) || message;
+        this.message = MessageService.mappingMessage(EmessageMapping[message]) || message;
     }
 
 

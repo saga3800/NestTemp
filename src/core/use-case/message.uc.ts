@@ -4,7 +4,7 @@ import { IMessage } from '../entity/message.entity';
 @Injectable()
 export abstract class IMessageUc {
 
-    abstract loadMessages(): Promise<IMessage[]>;
+    abstract loadMessages(): Promise<any>;
 
     abstract update(message: IMessage): Promise<IMessage>;
 

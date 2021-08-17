@@ -4,6 +4,8 @@ import { IMessage } from '../../../core/entity/message.entity';
 import { IMessageUc } from '../../../core/use-case/message.uc';
 import { IMessageService } from '../message.service';
 import { ResponseService } from 'src/controller/dto/response-service.dto';
+import { EmessageMapping } from 'src/common/utils/enums/message.enum';
+import { MessageUcimpl } from 'src/core/use-case/impl/message.uc.impl';
 
 @Injectable()
 export class MessageService implements IMessageService {
@@ -45,4 +47,9 @@ export class MessageService implements IMessageService {
       result,
     );
   }
+
+  public static mappingMessage(idMessage: EmessageMapping): string {
+    return MessageUcimpl.messages.find(m => m.id == idMessage)?.message;
+  }
+
 }

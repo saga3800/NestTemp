@@ -1,33 +1,38 @@
-import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { BusinessException } from 'src/common/lib/business-exceptions';
-import GeneralUtil from 'src/common/utils/utils';
-import { Cache } from "cache-manager";
 import { ResponsePaginator } from 'src/controller/dto/response-paginator.dto';
 import { IMessage } from 'src/core/entity/message.entity';
 import { IMessageProvider } from '../../../data-provider/message.provider';
 import { IMessageUc } from '../message.uc';
 import { MESSAGE } from 'src/common/configuration/messages/message-config';
+import Logging from 'src/common/lib/logging';
+import { Etask } from 'src/common/utils/enums/taks.enum';
 
 
 @Injectable()
 export class MessageUcimpl implements IMessageUc {
 
+    static messages: IMessage[] = [];
+    private readonly logger = new Logging(MessageUcimpl.name);
+
     constructor(
-        @Inject(CACHE_MANAGER) public readonly cacheManager: Cache,
         public readonly _messageProvider: IMessageProvider
     ) { }
 
 
-    async loadMessages(): Promise<IMessage[]> {
-        const totalMessages = await this._messageProvider.getTotal({});
-        if (totalMessages == 0) {
-            // Si no hay mensajes en bd, se crean los mensajes por defecto
-            const result = await this._messageProvider.createMessages(MESSAGE);
-            if (result) {
-                // Si se guarda en bd, guardar también en cache
-                GeneralUtil.cacheMessages(this.cacheManager, 'create', MESSAGE);
-                return MESSAGE;
+    async loadMessages(): Promise<any> {
+        let message: IMessage[] = [];
+        try {
+            message = await this._messageProvider.getMessages(1, 100, {});
+            if (message.length == 0) { 
+                // Si no hay mensajes en bd, se insertan los mensajes
+                await this._messageProvider.createMessages(MESSAGE);
             }
+        } catch(error) {
+            this.logger.write(`Error cargando mensajes`, Etask.LOAD_MESSAGE, true, error);
+        } finally {
+            // Actualizar variable estática
+            MessageUcimpl.messages = (message.length == 0) ? MESSAGE: message;
         }
     }
 
@@ -36,8 +41,10 @@ export class MessageUcimpl implements IMessageUc {
         if (result == null)
             throw new BusinessException(400, 'No existe un mensaje con el código indicado', true);
         
-        // Si se actualiza en bd, también en cache
-        GeneralUtil.cacheMessages(this.cacheManager, 'update', undefined, message);
+        // Si se actualiza en bd, actualizar variable estática
+        const messagePosition = MessageUcimpl.messages.findIndex(msg => msg.id === message.id);
+        MessageUcimpl.messages[messagePosition] = message;
+
         return result;
     }
 
