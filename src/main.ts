@@ -25,7 +25,7 @@ async function bootstrap() {
     .setVersion(info.version)
     .build();
   const document = SwaggerModule.createDocument(app, swaggerconfig);
-  SwaggerModule.setup('api-doc', app, document);
+  SwaggerModule.setup('', app, document);
 
   await app.listen(port, () => Logger.log(`Microservice is listening on port ${port}`));
 }
