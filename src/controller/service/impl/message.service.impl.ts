@@ -49,7 +49,7 @@ export class MessageService implements IMessageService {
   }
 
   public static mappingMessage(idMessage: EmessageMapping): string {
-    return MessageUcimpl.messages.find(m => m.id == idMessage)?.message;
+    return MessageUcimpl.getMessages.find(m => m.id == idMessage)?.message;
   }
 
 }

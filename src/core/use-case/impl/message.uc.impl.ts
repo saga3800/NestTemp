@@ -4,7 +4,7 @@ import { ResponsePaginator } from 'src/controller/dto/response-paginator.dto';
 import { IMessage } from 'src/core/entity/message.entity';
 import { IMessageProvider } from '../../../data-provider/message.provider';
 import { IMessageUc } from '../message.uc';
-import { MESSAGE } from 'src/common/configuration/messages/message-config';
+import { MESSAGE } from 'src/common/configuration/messages/message.config';
 import Logging from 'src/common/lib/logging';
 import { Etask } from 'src/common/utils/enums/taks.enum';
 
@@ -12,12 +12,17 @@ import { Etask } from 'src/common/utils/enums/taks.enum';
 @Injectable()
 export class MessageUcimpl implements IMessageUc {
 
-    static messages: IMessage[] = [];
+    private static messages: IMessage[] = [];
     private readonly logger = new Logging(MessageUcimpl.name);
 
     constructor(
         public readonly _messageProvider: IMessageProvider
     ) { }
+    
+
+    public static get getMessages(): IMessage[]{
+        return MessageUcimpl.messages;
+    }
 
 
     async loadMessages(): Promise<any> {
@@ -36,6 +41,7 @@ export class MessageUcimpl implements IMessageUc {
         }
     }
 
+    
     async update(message: IMessage): Promise<IMessage> {
         const result = await this._messageProvider.updateMessage(message);
         if (result == null)
@@ -48,9 +54,11 @@ export class MessageUcimpl implements IMessageUc {
         return result;
     }
 
+
     async getById(idMessage: string): Promise<IMessage> {
         return await this._messageProvider.getMessage(idMessage);
     }
+
 
     async getMessages(page: number, limit: number, filter: any): Promise<ResponsePaginator<IMessage>> {
         if (filter != {}) {
