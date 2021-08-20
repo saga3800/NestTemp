@@ -25,6 +25,8 @@ async function bootstrap() {
   app.use(rTracer.expressMiddleware())
   //Configuración de filter para el manejo de excepciones
   app.useGlobalFilters(new ExceptionManager());
+  //Empezar a escuchar los shutdown hooks
+  app.enableShutdownHooks();
 
   //Swagger
   const swaggerconfig = new DocumentBuilder()
