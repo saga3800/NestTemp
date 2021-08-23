@@ -9,7 +9,7 @@ import apmConfig from './common/configuration/apm.config';
 const info = require('../package.json');
 
 //Inicialización APM
-const apm = require('elastic-apm-node').start({ ...apmConfig });
+//const apm = require('elastic-apm-node').start({ ...apmConfig });
 
 async function bootstrap() {
 

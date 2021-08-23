@@ -1,13 +1,4 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Put, Query, } from '@nestjs/common';
 import generalConfig from 'src/common/configuration/general.config';
 import { MethodMessage } from 'src/common/utils/enums/mapping-api-rest';
 import GeneralUtil from 'src/common/utils/utils';
@@ -16,17 +7,19 @@ import { IMessageService } from './service/message.service';
 
 @Controller(`${generalConfig.apiVersion}${generalConfig.controllerMessage}`)
 export class MessageController {
-  constructor(private readonly _messageService: IMessageService) {}
+  constructor(private readonly _messageService: IMessageService) { }
+
 
   @Get(MethodMessage.GETBYID)
-  message(@Param('Id') idMessage) {
-    if (!GeneralUtil.validateValueRequired(idMessage))
+  message(@Param('Id') _id: string) {
+    if (!GeneralUtil.validateValueRequired(_id))
       throw new BadRequestException(
         'Debe indicar el identificador del mensaje.',
       );
 
-    return this._messageService.getById(idMessage);
+    return this._messageService.getById(_id);
   }
+
 
   @Get(MethodMessage.GETALL)
   getAll(
@@ -37,8 +30,9 @@ export class MessageController {
     return this._messageService.getMessages(_page, _limit, _filter);
   }
 
+
   @Put(MethodMessage.UPDATE)
-  update(@Param('Id') id, @Body() messge: IMessageDTO) {
+  update(@Param('Id') id: string, @Body() messge: IMessageDTO) {
     if (id != messge.id)
       throw new BadRequestException('El identificador no coincide.');
 

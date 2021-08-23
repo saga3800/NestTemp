@@ -24,6 +24,7 @@ export class MockupController {
     return this.mockupService.create(createMockupDto);
   }
 
+   
   @Get()
   @ApiOperation({
     description: "Crea un nuevo registro de mockup"
@@ -32,6 +33,7 @@ export class MockupController {
     return this.mockupService.findAll(_page, _limit);
   }
 
+   
   @Get(':id')
   @ApiOperation({
     description: "Consulta registro de mockup"
@@ -40,6 +42,7 @@ export class MockupController {
     return this.mockupService.findOne(+id);
   }
 
+   
   @Patch(':id')
   @ApiOperation({
     description: "Actualiza registro de mockup"
@@ -48,6 +51,7 @@ export class MockupController {
     return this.mockupService.update(id, updateMockupDto);
   }
 
+   
   @Delete(':id')
   @ApiOperation({
     description: "Elimina registro de mockup"

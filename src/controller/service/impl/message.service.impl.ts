@@ -11,6 +11,7 @@ import { MessageUcimpl } from 'src/core/use-case/impl/message.uc.impl';
 export class MessageService implements IMessageService {
   constructor(private readonly _messageUC: IMessageUc) {}
 
+
   async update(message: IMessageDTO): Promise<ResponseService<IMessage>> {
     const result = await this._messageUC.update(message);
     return new ResponseService(
@@ -20,6 +21,7 @@ export class MessageService implements IMessageService {
       result,
     );
   }
+
 
   async getById(idMessage: string): Promise<ResponseService<IMessage>> {
     const result: IMessage = await this._messageUC.getById(idMessage);
@@ -32,6 +34,7 @@ export class MessageService implements IMessageService {
       result,
     );
   }
+  
 
   async getMessages(page: number, limit: number, filter: any): Promise<ResponseService<any>> {
     // Mapeo de los campos de filtrado

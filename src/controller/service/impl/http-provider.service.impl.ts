@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { EmessageMapping } from 'src/common/utils/enums/message.enum';
 import { ResponseService } from 'src/controller/dto/response-service.dto';
 import { IHttpPruebaUc } from 'src/core/use-case/http-prueba.uc';
 import { IHttpPruebaService } from '../http-prueba.service';
@@ -11,7 +12,7 @@ export class HttpPruebaService implements IHttpPruebaService {
     const result = await this._httpPruebaUc.getById(_id);
     return new ResponseService(
         true,
-        'Acción realizada correctamente.',
+        EmessageMapping.DEFAULT,
         200,
         result,
     );
@@ -22,8 +23,8 @@ export class HttpPruebaService implements IHttpPruebaService {
     return new ResponseService(
       true,
       result
-        ? 'Consulta ejecutada correctamente.'
-        : 'No se encontraron datos.',
+        ? EmessageMapping.DEFAULT
+        : EmessageMapping.DEFAULT_ERROR,
       200,
       result,
     );

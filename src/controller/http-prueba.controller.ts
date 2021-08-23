@@ -11,10 +11,11 @@ export class HttpPruebaController {
     return this._httpPruebaService.getById(_id);
   }
 
+  
   @Get()
   getAll(
     @Query('page', ParseIntPipe) _page: number = 1,
-    @Query('limit', ParseIntPipe) _limit: number = 1
+    @Query('limit', ParseIntPipe) _limit: number = 15
   ) {
     return this._httpPruebaService.getAll(_page, _limit);
   }

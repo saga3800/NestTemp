@@ -69,11 +69,17 @@ export default class GeneralUtil {
    * @param channel 
    * @returns 
    */
-  public static validateChannel(channel: string): boolean {
+   public static validateChannel(channel: string): boolean {
     if (Echannel[channel])
       return true;
     else
-      throw new BusinessException(HttpStatus.BAD_REQUEST, (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`, false, { codMessage: EmessageMapping.CHANNEL_ERROR });
+      throw new BusinessException(
+        201,
+        (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
+        false,
+        {
+          codMessage: EmessageMapping.CHANNEL_ERROR
+        });
   }
 
 

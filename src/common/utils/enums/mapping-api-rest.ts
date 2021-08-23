@@ -1,5 +1,5 @@
 export enum MethodMessage {
-    GETBYID = '/:Id',
+    GETBYID = ':Id',
     GETALL = '/',
-    UPDATE = '/:Id'
+    UPDATE = ':Id'
 }
