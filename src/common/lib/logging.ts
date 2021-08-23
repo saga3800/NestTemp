@@ -24,7 +24,7 @@ export default class Logging {
      */
     public write(message: string, taks: Etask, isError: boolean = false, request?: any, response?: any) {
         if (this.LOG_LEVEL === 'ALL' || (this.LOG_LEVEL == 'ERROR' && isError))
-            logger.log(logOutput(info.name, `${this.context} - ${taks}`, util.getCorrelationalId,
+            logger.log(logOutput(info.name, `${this.context || ''} - ${taks || ''}`, util.getCorrelationalId,
                 message,
                 isError ? levelsErros.ERROR : levelsErros.INFO, request, response));
     }

@@ -16,8 +16,9 @@ import { DataProviderModule } from './data-provider/data-provider.module';
       useClass: ExceptionManager,
     },
     {
-        provide: APP_INTERCEPTOR,
-        useClass: RequestHttpInterceptor,
-    }],
+      provide: APP_INTERCEPTOR,
+      useClass: RequestHttpInterceptor,
+    },
+  ],
 })
 export class AppModule {}
