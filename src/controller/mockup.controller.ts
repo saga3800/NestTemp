@@ -2,14 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { IMockupService } from './service/mockup.service';
 import { CreateMockupDto } from './dto/mockup/create-mockup.dto';
 import { UpdateMockupDto } from './dto/mockup/update-mockup.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import generalConfig from 'src/common/configuration/general.config';
+import { ResponseService } from './dto/response-service.dto';
 
 /**
  * En el controlador se definen los metodos a exponer por parte del servicio
  * En caso de que el servicio requiera paths diferentes, se debe crear un controller por cada path 
  */
- @Controller(`${generalConfig.apiVersion}${generalConfig.controllerMockup}`)
+@ApiTags('mockup')
+@Controller(`${generalConfig.apiVersion}${generalConfig.controllerMockup}`)
 export class MockupController {
 
   //En el constructor se injecta la definición del service que procesará la petición. No se debe hacer un llamado directo a la implementación
@@ -20,6 +22,7 @@ export class MockupController {
   @ApiOperation({
     description: "Crea un nuevo registro de mockup"
   })
+  @ApiResponse({ type: ResponseService })
   create(@Body() createMockupDto: CreateMockupDto) {
     return this.mockupService.create(createMockupDto);
   }
@@ -29,6 +32,7 @@ export class MockupController {
   @ApiOperation({
     description: "Crea un nuevo registro de mockup"
   })
+  @ApiResponse({ type: ResponseService })
   findAll(@Query('page') _page: number, @Query('limit') _limit: number) {
     return this.mockupService.findAll(_page, _limit);
   }
@@ -38,6 +42,7 @@ export class MockupController {
   @ApiOperation({
     description: "Consulta registro de mockup"
   })
+  @ApiResponse({ type: ResponseService })
   findOne(@Param('id') id: number) {
     return this.mockupService.findOne(+id);
   }
@@ -47,6 +52,7 @@ export class MockupController {
   @ApiOperation({
     description: "Actualiza registro de mockup"
   })
+  @ApiResponse({ type: ResponseService })
   update(@Param('id') id: number, @Body() updateMockupDto: UpdateMockupDto) {
     return this.mockupService.update(id, updateMockupDto);
   }
@@ -56,6 +62,7 @@ export class MockupController {
   @ApiOperation({
     description: "Elimina registro de mockup"
   })
+  @ApiResponse({ type: ResponseService })
   remove(@Param('id') id: number) {
     return this.mockupService.remove(+id);
   }

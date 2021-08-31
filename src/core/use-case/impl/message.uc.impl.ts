@@ -20,6 +20,14 @@ export class MessageUcimpl implements IMessageUc {
     ) { }
     
 
+    /**
+     * Al cargar el modulo se ejecuta la lógica de carga de mensajes en memoria
+     */
+    async onModuleInit() {
+        await this.loadMessages();
+    }
+    
+
     public static get getMessages(): IMessage[]{
         return MessageUcimpl.messages;
     }

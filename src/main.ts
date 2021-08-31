@@ -5,11 +5,11 @@ import { AppModule } from './app.module';
 import rTracer = require('cls-rtracer')
 import { ExceptionManager } from './common/lib/exceptions-manager.filter';
 import generalConfig from './common/configuration/general.config';
+//APM
 import apmConfig from './common/configuration/apm.config';
-const info = require('../package.json');
+var apm = require('elastic-apm-node').start(apmConfig);
 
-//Inicialización APM
-//const apm = require('elastic-apm-node').start({ ...apmConfig });
+const info = require('../package.json');
 
 async function bootstrap() {
 
@@ -25,6 +25,8 @@ async function bootstrap() {
   app.use(rTracer.expressMiddleware())
   //Configuración de filter para el manejo de excepciones
   app.useGlobalFilters(new ExceptionManager());
+  //Empezar a escuchar los shutdown hooks
+  app.enableShutdownHooks();
 
   //Swagger
   const swaggerconfig = new DocumentBuilder()
