@@ -9,10 +9,12 @@ import { MessageService } from './service/impl/message.service.impl';
 import { HttpPruebaController } from './http-prueba.controller';
 import { IHttpPruebaService } from './service/http-prueba.service';
 import { HttpPruebaService } from './service/impl/http-provider.service.impl';
+import { HealthController } from './health.controller';
+import { TerminusModule } from '@nestjs/terminus';
 
 @Module({
-  imports: [CoreModule],
-  controllers: [MockupController, MessageController, HttpPruebaController],
+  imports: [CoreModule, TerminusModule],
+  controllers: [MockupController, MessageController, HttpPruebaController, HealthController],
   providers: [
     { provide: IMockupService, useClass: MockupService },
     { provide: IMessageService, useClass: MessageService },
