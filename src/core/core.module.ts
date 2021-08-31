@@ -9,14 +9,7 @@ import { IMessageUc } from './use-case/message.uc';
   imports: [DataProviderModule],
   providers: [
     { provide: IMessageUc, useClass: MessageUcimpl },
-    { provide: IHttpPruebaUc, useClass: HttpPruebaUcimpl },
-    {
-      provide: 'VerifyMessages',
-      useFactory: async (messageUC: IMessageUc) => {
-        await messageUC.loadMessages();
-      },
-      inject: [IMessageUc]
-    }
+    { provide: IHttpPruebaUc, useClass: HttpPruebaUcimpl }
   ],
   exports: [IMessageUc, IHttpPruebaUc],
 })
