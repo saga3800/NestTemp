@@ -1,4 +1,4 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpStatus } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpStatus, Logger } from '@nestjs/common';
 import * as moment from 'moment';
 import { map, Observable, tap } from 'rxjs';
 import GeneralUtil from 'src/common/utils/utils';
@@ -30,7 +30,7 @@ export class RequestHttpInterceptor implements NestInterceptor<ResponseService> 
           }
         )),
         tap((_result: ResponseService) => {
-          console.log(`Response transaction => ${moment().format()} - ${_result.responseTime}ms - ${_result.process || ''} - ${req.method} - ${_result.origen} - ${_result.status} - ${_result.success} `);
+          Logger.log(`Response transaction => ${moment().format()} - ${_result.responseTime}ms - ${_result.process || ''} - ${req.method} - ${_result.origen} - ${_result.status} - ${_result.success} `);
         })
       );
   }

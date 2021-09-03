@@ -24,7 +24,7 @@ export class ResponseHttp<R = any> {
         if (this.executed) {
             this.status = axiosResult.response?.status || axiosResult?.status;
 
-            if (this.status == 200)
+            if (this.status == 200 || this.status == 201)
                 this.data = axiosResult.data;
             else
                 this.data = axiosResult.response.data;

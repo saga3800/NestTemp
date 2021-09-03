@@ -47,7 +47,13 @@ export class ResponseService<T = any> {
     @ApiProperty({
         description: 'Fecha y hora en la que se hace el request'
     })
-    public requestTime?: Date;
+    public requestTime?: Date | string;
+
+    @ApiProperty({
+        description: 'Metodo HTTP a través del cual se hace el llamado'
+    })
+    public method?: string;
+    
 
     constructor(
         success: boolean = true,
