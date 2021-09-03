@@ -25,7 +25,7 @@ export class MockupService implements IMockupService {
       { id: 3, message: 'Mockup three' },
       { id: 4, message: 'Mockup four' }
     ];
-    return new ResponseService(true, 'Consulta ejecutada correctamente.', 200, new ResponsePaginator(documents,page, limit));
+    return new ResponseService(true, 'Consulta ejecutada correctamente.', 200, new ResponsePaginator(documents, documents.length, page, limit));
   }
 
   findOne(id: number) {
@@ -34,7 +34,7 @@ export class MockupService implements IMockupService {
   }
 
   update(id: number, updateMockupDto: UpdateMockupDto) {
-   
+
     if (id != updateMockupDto.id) {
       this.logger.write('traza error', Etask.UPDATE, true, updateMockupDto);
       throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);

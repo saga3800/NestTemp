@@ -7,7 +7,7 @@ import { IMessageDTO } from './dto/message/message.dto';
 import { ResponseService } from './dto/response-service.dto';
 import { IMessageService } from './service/message.service';
 
-@ApiTags('message')
+@ApiTags(generalConfig.controllerMessage)
 @Controller(`${generalConfig.apiVersion}${generalConfig.controllerMessage}`)
 export class MessageController {
   constructor(private readonly _messageService: IMessageService) { }
@@ -34,11 +34,11 @@ export class MessageController {
   })
   @ApiResponse({ type: ResponseService })
   getAll(
-    @Query('page', ParseIntPipe) _page: number = 1,
-    @Query('limit', ParseIntPipe) _limit: number = 1,
-    @Query('filter') _filter: any = '{}',
+    @Query('page') _page: number = 1,
+    @Query('limit') _limit: number = 15,
+    @Query('filter') _filter: any = '{}'
   ) {
-    return this._messageService.getMessages(_page, _limit, _filter);
+    return this._messageService.getMessages(+_page, +_limit, _filter);
   }
 
 

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { Etask } from 'src/common/utils/enums/taks.enum';
-import { IHttpProvider } from '../http.provider';
+import { Etask } from './../../common/utils/enums/taks.enum';
+import { IHttpProvider } from './../http.provider';
 import { IRequestConfigHttp, IRequestConfigHttpSOAP } from '../model/http/request-config-http.model';
-import servicesConfig from 'src/common/configuration/services.config';
-import { ResponseHttp } from '../model/http/response-http.model';
-import Logging from 'src/common/lib/logging';
-import GeneralUtil from 'src/common/utils/utils';
+import servicesConfig from './../../common/configuration/services.config';
+import { ResponseHttp } from './../model/http/response-http.model';
+import Logging from './../../common/lib/logging';
+import GeneralUtil from './../../common/utils/utils';
 
 
 @Injectable()
@@ -22,8 +22,6 @@ export class HttpProvider implements IHttpProvider {
       let result: ResponseHttp;
 
       try {
-
-         this.logger.write('Inicia ejecución HTTP.', _task, false, _requestConfig);
 
          const respose = await axios.request(
             {
@@ -41,7 +39,7 @@ export class HttpProvider implements IHttpProvider {
          result = new ResponseHttp(error);
       }
 
-      this.logger.write('Resultado ejecución HTTP', _task, !result.executed, result);
+      this.logger.write('Resultado ejecución HTTP REST', _task, result.status != 200, _requestConfig, result);
       return result;
    }
 
@@ -51,9 +49,6 @@ export class HttpProvider implements IHttpProvider {
       let result: ResponseHttp;
 
       try {
-
-         this.logger.write('Inicia ejecución HTTP SOAP.', _task, false, _requestConfig);
-
          const respose = await axios.request(
             {
                url: _requestConfig.url,
@@ -75,8 +70,8 @@ export class HttpProvider implements IHttpProvider {
 
       //Se transforma respuesta xml del servicio a json
       result.data = await GeneralUtil.convertXmlToJson(result.data);
-   
-      this.logger.write('Resultado ejecución HTTP SOAP', _task, !result.executed, result);
+
+      this.logger.write('Resultado ejecución HTTP SOAP', _task, result.status != 200, _requestConfig, result);
 
       return result;
    }

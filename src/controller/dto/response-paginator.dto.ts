@@ -1,7 +1,7 @@
 /**
  * Clase con estructura para manejo de paginación
  */
-export class Pagination {
+ export class Pagination {
 
     readonly previousPageIndex?: number;
     readonly nextPageIndex?: number;
@@ -23,8 +23,8 @@ export class ResponsePaginator<T> {
 
     public readonly pagination: Pagination;
 
-    constructor(public readonly data: T[], page: number, limit: number) {
-        this.pagination = new Pagination(data?.length || 0, page, limit);
+    constructor(public readonly data: T[], totalDocuments: number, page: number, limit: number) {
+        this.pagination = new Pagination(totalDocuments || 0, page, limit);
     }
 }
 
