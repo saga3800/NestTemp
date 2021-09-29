@@ -6,4 +6,5 @@ export default {
   controllerMockup: process.env.CONTROLLER || '/Mockup',
   port: process.env.PORT || 8080,
   logLevel: process.env.LOG_LEVEL || 'ALL',
+  ttlCache: Number(process.env.TTL_CACHE || 0)
 };

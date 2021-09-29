@@ -6,6 +6,9 @@ import generalConfig from '../../common/configuration/general.config';
 import { BusinessException } from '../lib/business-exceptions';
 import { EmessageMapping } from "./enums/message.enum";
 import { Echannel, EtypeDocument } from "./enums/params.enum";
+import { Cache } from "cache-manager";
+import { MESSAGE } from '../configuration/messages/message.config';
+import { IMessage } from 'src/core/entity/message.entity';
 const xml2js = require('xml2js');
 export default class GeneralUtil {
 
@@ -32,8 +35,8 @@ export default class GeneralUtil {
           }],
         });
 
-     return parser.parseStringPromise(xml).then((result) => {
-        console.log('Result JSON transform from XML => \n', JSON.stringify(result) );
+      return parser.parseStringPromise(xml).then((result) => {
+        console.log('Result JSON transform from XML => \n', JSON.stringify(result));
         return JSON.parse(JSON.stringify(result));
       })
         .catch(function (err) {
@@ -69,12 +72,12 @@ export default class GeneralUtil {
    * @param channel 
    * @returns 
    */
-   public static validateChannel(channel: string): boolean {
+  public static validateChannel(channel: string): boolean {
     if (Echannel[channel])
       return true;
     else
       throw new BusinessException(
-        201,
+        HttpStatus.BAD_REQUEST,
         (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
         false,
         {
@@ -129,11 +132,38 @@ export default class GeneralUtil {
     return `${generalConfig.apiMapping}${(url?.includes('?')) ? url.slice(0, url.indexOf('?')) : url}`;
   }
 
-  
+
   public static getTemplateXML = name => {
     //return FS.readFileSync(`src/common/utils/xmls/${name}.xml`, "utf8");
     const pathfile = path.resolve(`${__dirname}/xmls/${name}.xml`);
     return FS.readFileSync(pathfile, "utf8");
   };
-  
+
+
+  /**
+   * Manejo de mensajes en cache
+   * @param cache 
+   * @param operation 
+   * @param messages 
+   * @param updatedMessage 
+   */
+  public static async cacheMessages(
+    cache: Cache,
+    operation: string,
+    messages?: IMessage[],
+    updatedMessage?: IMessage,
+  ) {
+
+    if (operation == 'update') {
+      // Actualizar el mensaje en cache
+      var messages = await cache.get<IMessage[]>('messages');
+      const messagePosition = messages.findIndex(message => message.id === updatedMessage.id);
+      messages[messagePosition] = updatedMessage;
+    }
+    // Almacenar los mensajes en cache
+    cache.set('messages', messages, { ttl: generalConfig.ttlCahe }); // ttl (expiration time in seconds) 0 To disable expiration of the cache,
+  }
+
 }
+
+
