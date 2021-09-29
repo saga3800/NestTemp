@@ -7,7 +7,7 @@ import { BusinessException } from '../lib/business-exceptions';
 import { EmessageMapping } from "./enums/message.enum";
 import { Echannel, EtypeDocument } from "./enums/params.enum";
 import { Cache } from "cache-manager";
-import { MESSAGE } from '../configuration/messages/message-config';
+import { MESSAGE } from '../configuration/messages/message.config';
 import { IMessage } from 'src/core/entity/message.entity';
 const xml2js = require('xml2js');
 export default class GeneralUtil {
