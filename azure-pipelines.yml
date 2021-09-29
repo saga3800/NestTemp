@@ -1,6 +1,6 @@
-trigger:
-  - master
-  - develop
+#trigger:
+#  - master
+#  - develop
 
 variables:
   artifact_name: _ci-ms-authoriza-entfraud
