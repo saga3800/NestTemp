@@ -6,8 +6,8 @@ import rTracer = require('cls-rtracer')
 import { ExceptionManager } from './common/lib/exceptions-manager.filter';
 import generalConfig from './common/configuration/general.config';
 //APM
-import apmConfig from './common/configuration/apm.config';
-var apm = require('elastic-apm-node').start(apmConfig);
+const apmConfig = require('./common/configuration/apm.config');
+var apm = require('elastic-apm-node').start();
 
 const info = require('../package.json');
 
