@@ -7,7 +7,7 @@ import { ExceptionManager } from './common/lib/exceptions-manager.filter';
 import generalConfig from './common/configuration/general.config';
 //APM
 const apmConfig = require('./common/configuration/apm.config');
-var apm = require('elastic-apm-node').start();
+var apm = require('elastic-apm-node').start(apmConfig);
 
 const info = require('../package.json');
 

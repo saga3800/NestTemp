@@ -161,7 +161,7 @@ export default class GeneralUtil {
       messages[messagePosition] = updatedMessage;
     }
     // Almacenar los mensajes en cache
-    cache.set('messages', messages, { ttl: generalConfig.ttlCahe }); // ttl (expiration time in seconds) 0 To disable expiration of the cache,
+    cache.set('messages', messages, { ttl: generalConfig.ttlCache }); // ttl (expiration time in seconds) 0 To disable expiration of the cache,
   }
 
 }
