@@ -29,5 +29,4 @@ export default class Logging {
                 isError ? levelsErros.ERROR : levelsErros.INFO, request, response));
     }
 
-
 }
