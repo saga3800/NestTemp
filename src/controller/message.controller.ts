@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Put, Query, } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Put, Query, Headers} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import generalConfig from 'src/common/configuration/general.config';
 import { MethodMessage } from 'src/common/utils/enums/mapping-api-rest';
@@ -36,9 +36,10 @@ export class MessageController {
   getAll(
     @Query('page') _page: number = 1,
     @Query('limit') _limit: number = 15,
-    @Query('filter') _filter: any = '{}'
+    @Query('filter') _filter: any = '{}',
+    @Headers('channel') channel: string
   ) {
-    return this._messageService.getMessages(+_page, +_limit, _filter);
+    return this._messageService.getMessages(+_page, +_limit, _filter, channel);
   }
 
 

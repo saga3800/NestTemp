@@ -6,10 +6,11 @@ import { IMessageService } from '../message.service';
 import { ResponseService } from 'src/controller/dto/response-service.dto';
 import { EmessageMapping } from 'src/common/utils/enums/message.enum';
 import { MessageUcimpl } from 'src/core/use-case/impl/message.uc.impl';
+import { IGlobalValidateIService } from '../globalValidate.service';
 
 @Injectable()
 export class MessageService implements IMessageService {
-  constructor(private readonly _messageUC: IMessageUc) {}
+  constructor(private readonly _messageUC: IMessageUc,  public readonly _GlobalValidate: IGlobalValidateIService,) { }
 
 
   async update(message: IMessageDTO): Promise<ResponseService<IMessage>> {
@@ -34,9 +35,14 @@ export class MessageService implements IMessageService {
       result,
     );
   }
-  
 
-  async getMessages(page: number, limit: number, filter: any): Promise<ResponseService<any>> {
+
+  async getMessages(page: number, limit: number, filter: any, channel: string): Promise<ResponseService<any>> {
+
+    //Se valida canal
+    const validateChannel: boolean = await this._GlobalValidate.validateChannel(channel)
+    console.log("Respuesta de validacion del canal :", JSON.stringify(validateChannel))
+    
     // Mapeo de los campos de filtrado
     const _filter: object = JSON.parse(filter);
 
