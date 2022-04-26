@@ -25,7 +25,7 @@ export class MockupService implements IMockupService {
       { id: 3, message: 'Mockup three' },
       { id: 4, message: 'Mockup four' }
     ];
-    return new ResponseService(true, 'Consulta ejecutada correctamente.', 200, new ResponsePaginator(documents, documents.length, page, limit));
+    return new ResponseService(true, 'Consulta ejecutada correctamente.', 200, new ResponsePaginator(documents, page, limit));
   }
 
   findOne(id: number) {

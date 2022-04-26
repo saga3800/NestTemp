@@ -164,6 +164,30 @@ export default class GeneralUtil {
     cache.set('messages', messages, { ttl: generalConfig.ttlCache }); // ttl (expiration time in seconds) 0 To disable expiration of the cache,
   }
 
+  public static validateDate(date1: Date, date2: Date): number {
+    // With Date object we can compare dates them using the >, <, <= or >=.
+    // The ==, !=, ===, and !== operators require to use date.getTime(),
+    // so we need to create a new instance of Date with 'new Date()'
+    const d1 = new Date(date1); const d2 = new Date(date2);
+
+    // Check if the dates are equal
+    const same = d1.getTime() === d2.getTime();
+    if (same) return 0;
+
+    // Check if the first is greater than second
+    if (d1 > d2) return 1;
+
+    // Check if the first is less than second
+    if (d1 < d2) return -1;
+
+    // To calculate the time difference of two dates
+    const Difference_In_Time = d2.getTime() - d1.getTime();
+
+    // To calculate the no. of days between two dates
+    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    return Difference_In_Days;
+  };
+
 }
 
 

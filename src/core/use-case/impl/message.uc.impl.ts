@@ -78,7 +78,7 @@ export class MessageUcimpl implements IMessageUc {
             filter
         );
 
-        return new ResponsePaginator(documents, total, page, limit);
+        return new ResponsePaginator(documents, page, limit);
     }
 
 }
