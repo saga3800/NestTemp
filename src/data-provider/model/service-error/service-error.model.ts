@@ -26,12 +26,6 @@ export class ServiceErrorModel extends Document {
     @Prop()
     serviceid: string;
 
-    @Prop()
-    numOrden: string;
-
-    @Prop({default:""})
-    numSubOrder: string;
-
     @Prop({ type: Documentos })
     documents: Documentos;
 }

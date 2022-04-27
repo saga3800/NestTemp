@@ -21,7 +21,6 @@ export class serviceErrorController{
     try {
         return this._serviceErrorService.getServiceErrors(query.page, query.limit, {
             "_filter":{
-                "numOrden": query.numOrden,
                 "startDate": query.startDate,
                 "endDate": query.endDate
             }});

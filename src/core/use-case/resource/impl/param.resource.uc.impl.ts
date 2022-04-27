@@ -53,8 +53,6 @@ export class ParamUcimpl implements IParamUc {
                 'origen': GlobalReqOrigin.globalOrigin,
                 'message': error.message,
                 'serviceid': "MSTemplateNestJs",
-                'numOrden': GlobalReqOrigin.numOrden,
-                'numSubOrder': GlobalReqOrigin.numSubOrder,
                 'documents': {
                     'error': error.stack,
                     'request': "",

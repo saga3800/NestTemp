@@ -11,8 +11,6 @@ export default {
 }
 export class GlobalReqOrigin{
   static globalOrigin: any;
-  static numOrden: any;
-  static numSubOrder: any;
   static client:Object;
   static request:any;
   static requestHeaders:string;

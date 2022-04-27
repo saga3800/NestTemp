@@ -30,9 +30,6 @@ export class ServiceErrorUcimpl implements IServiceErrorUc {
                 $lte: new Date(filter.endDate.toISOString())
             }
         };
-        if(!!filter.numOrden) {
-            query["numOrden"]=filter.numOrden;
-        };
             if (filter != {}) {
                 const total: number = await this._serviceErrorProvider.getTotal(query);
                 if (total == 0) {
@@ -41,8 +38,6 @@ export class ServiceErrorUcimpl implements IServiceErrorUc {
                         'origen': GlobalReqOrigin.globalOrigin,
                         'message': "'No se encontró información con los filtros indicados'",
                         'serviceid': "MSTemplateNestJs",
-                        'numOrden': filter.numOrden || "",
-                        'numSubOrder': "",
                         'documents':{
                         'error': "'No se encontró información con los filtros indicados'",
                             'request':"",
