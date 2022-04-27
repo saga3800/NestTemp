@@ -16,11 +16,6 @@ export class IErrorDTO {
     @ApiProperty({ required: false, description: "This is limit of query" })
     limit?: number;
 
-    @ApiProperty({ type: 'string', required: false, description: "This is numOrden of query" })
-    @IsOptional()
-    @IsString()
-    numOrden?: string = "";
-
     @ApiProperty({ type: 'date', required: true, description: "This is startDate of query"})
     @IsNotEmpty()
     @IsDate()
