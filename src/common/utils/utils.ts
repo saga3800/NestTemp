@@ -9,6 +9,7 @@ import { Echannel, EtypeDocument } from "./enums/params.enum";
 import { Cache } from "cache-manager";
 import { MESSAGE } from '../configuration/messages/message.config';
 import { IMessage } from 'src/core/entity/message.entity';
+import { ParamUcimpl } from 'src/core/use-case/resource/impl/param.resource.uc.impl';
 const xml2js = require('xml2js');
 export default class GeneralUtil {
 
@@ -72,17 +73,23 @@ export default class GeneralUtil {
    * @param channel 
    * @returns 
    */
+  // public static validateChannel(channel: string): boolean {
+  //   if (Echannel[channel])
+  //     return true;
+  //   else
+  //     throw new BusinessException(
+  //       HttpStatus.BAD_REQUEST,
+  //       (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
+  //       false,
+  //       {
+  //         codMessage: EmessageMapping.CHANNEL_ERROR
+  //       });
+  // }
+
   public static validateChannel(channel: string): boolean {
-    if (Echannel[channel])
+    if (ParamUcimpl.params.find(p => p.id_param == channel))
       return true;
-    else
-      throw new BusinessException(
-        HttpStatus.BAD_REQUEST,
-        (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
-        false,
-        {
-          codMessage: EmessageMapping.CHANNEL_ERROR
-        });
+    return false;
   }
 
 
