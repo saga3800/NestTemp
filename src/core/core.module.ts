@@ -6,8 +6,10 @@ import { MessageUcimpl } from './use-case/impl/message.uc.impl';
 import { IMessageUc } from './use-case/message.uc';
 import { ParamUcimpl } from './use-case/resource/impl/param.resource.uc.impl';
 import { ServiceErrorUcimpl } from './use-case/resource/impl/service-error.resource.uc.impl';
+import { ServiceTracingUcimpl } from './use-case/resource/impl/service-tracing.resource.uc.impl';
 import { IParamUc } from './use-case/resource/param.resource.uc';
 import { IServiceErrorUc } from './use-case/resource/service-error.resource.uc';
+import { IServiceTracingUc } from './use-case/resource/service-tracing.resource.uc';
 
 @Module({
   imports: [CacheModule.register(),DataProviderModule],
@@ -16,6 +18,7 @@ import { IServiceErrorUc } from './use-case/resource/service-error.resource.uc';
     { provide: IHttpPruebaUc, useClass: HttpPruebaUcimpl },
     { provide: IParamUc, useClass: ParamUcimpl },
     { provide: IServiceErrorUc, useClass: ServiceErrorUcimpl },
+    { provide: IServiceTracingUc, useClass:ServiceTracingUcimpl},
     {
       provide: 'VerifyParams',
       useFactory: async (paramUC: IParamUc) => {
@@ -25,6 +28,6 @@ import { IServiceErrorUc } from './use-case/resource/service-error.resource.uc';
     },
   ],
   
-  exports: [IMessageUc, IHttpPruebaUc, IParamUc, IServiceErrorUc],
+  exports: [IMessageUc, IHttpPruebaUc, IParamUc, IServiceErrorUc, IServiceTracingUc],
 })
 export class CoreModule {}

@@ -1,16 +1,22 @@
-import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Put, Query, Headers} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, ParseIntPipe, Put, Query, Headers } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import generalConfig from 'src/common/configuration/general.config';
+import Traceability from 'src/common/lib/traceability';
 import { MethodMessage } from 'src/common/utils/enums/mapping-api-rest';
+import { ETaskMessageGeneral } from 'src/common/utils/enums/message.enum';
+import { EStatusTracingGeneral, ETaskTracingGeneral } from 'src/common/utils/enums/tracing.enum';
 import GeneralUtil from 'src/common/utils/utils';
+import { IServiceTracingUc } from 'src/core/use-case/resource/service-tracing.resource.uc';
 import { IMessageDTO } from './dto/message/message.dto';
 import { ResponseService } from './dto/response-service.dto';
 import { IMessageService } from './service/message.service';
 
+
 @ApiTags(generalConfig.controllerMessage)
 @Controller(`${generalConfig.apiVersion}${generalConfig.controllerMessage}`)
+
 export class MessageController {
-  constructor(private readonly _messageService: IMessageService) { }
+  constructor(private readonly _messageService: IMessageService, private readonly _serviceTracing: IServiceTracingUc) { }
 
 
   @Get(MethodMessage.GETBYID)
@@ -23,6 +29,12 @@ export class MessageController {
       throw new BadRequestException(
         'Debe indicar el identificador del mensaje.',
       );
+    // save traceability of request 
+    let traceability = new Traceability({origen: `${generalConfig.apiVersion}${generalConfig.controllerMessage}`});
+    traceability.setStatus(EStatusTracingGeneral.STATUS_SUCCESS);
+    traceability.setDescription(ETaskMessageGeneral.GET_BY_ID);
+    traceability.setTask(ETaskMessageGeneral.GET_BY_ID);
+    this._serviceTracing.createServiceTracing(traceability.getTraceability());
 
     return this._messageService.getById(_id);
   }
@@ -39,6 +51,13 @@ export class MessageController {
     @Query('filter') _filter: any = '{}',
     @Headers('channel') channel: string
   ) {
+
+    // save traceability of request 
+    let traceability = new Traceability({origen: `${generalConfig.apiVersion}${generalConfig.controllerMessage}`});
+    traceability.setStatus(EStatusTracingGeneral.STATUS_SUCCESS);
+    traceability.setDescription(ETaskMessageGeneral.GET_ALL);
+    traceability.setTask(ETaskMessageGeneral.GET_ALL);
+    this._serviceTracing.createServiceTracing(traceability.getTraceability());
     return this._messageService.getMessages(+_page, +_limit, _filter, channel);
   }
 

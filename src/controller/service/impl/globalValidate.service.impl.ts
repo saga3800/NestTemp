@@ -9,6 +9,9 @@ import { BusinessException } from 'src/common/lib/business-exceptions';
 import Logging from 'src/common/lib/logging';
 import { Etask, ETaskDesc } from 'src/common/utils/enums/taks.enum';
 import { ITaskError } from 'src/core/entity/service-error/task-error.entity';
+import Traceability from 'src/common/lib/traceability';
+import { EStatusTracingGeneral, ETaskTracingGeneral } from 'src/common/utils/enums/tracing.enum';
+import { IServiceTracingUc } from 'src/core/use-case/resource/service-tracing.resource.uc';
 
 
 
@@ -18,7 +21,8 @@ export class GlobalValidateIService implements IGlobalValidateIService {
 
 
     constructor(
-        public readonly _serviceError: IServiceErrorUc
+        public readonly _serviceError: IServiceErrorUc,
+        public readonly _serviceTracing: IServiceTracingUc
     ) { }
 
     private readonly logger = new Logging(GlobalValidateIService.name);
@@ -31,12 +35,11 @@ export class GlobalValidateIService implements IGlobalValidateIService {
             const channelValidate: boolean = GeneralUtil.validateChannel(channel);
             if (!channelValidate) {
 
-                // let traceability = new Traceability({
-                //     task: ETaskTracingGeneral.INVALID_CHANNEL,
-                //     description: EDescriptionTracingGeneral.INVALID_CHANNEL_GLOBAL_DES,
-                // });
-                // traceability.setRequestHeaders(GlobalReqOrigin.requestHeaders);
-                // this._serviceTracing.createServiceTracing(traceability.getTraceability());
+                let traceability = new Traceability({});
+                traceability.setStatus(EStatusTracingGeneral.STATUS_SUCCESS);
+                traceability.setDescription(ETaskDesc.CHANNEL);
+                traceability.setTask(ETaskDesc.CHANNEL);
+                this._serviceTracing.createServiceTracing(traceability.getTraceability());
 
                 throw new BusinessException(
                     HttpStatus.CREATED,
