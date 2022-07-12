@@ -6,6 +6,8 @@ import { ResponsePaginator } from 'src/controller/dto/response-paginator.dto';
 import { GlobalReqOrigin } from 'src/common/configuration/general.config';
 import { BusinessException } from 'src/common/lib/business-exceptions';
 import GeneralUtil from 'src/common/utils/utils';
+import { ITaskError } from 'src/core/entity/service-error/task-error.entity';
+import Logging from 'src/common/lib/logging';
 
 @Injectable()
 export class ServiceErrorUcimpl implements IServiceErrorUc {
@@ -13,58 +15,59 @@ export class ServiceErrorUcimpl implements IServiceErrorUc {
     constructor(
         private readonly _serviceErrorProvider: IServiceErrorProvider
     ) { }
+    private readonly logger = new Logging(ServiceErrorUcimpl.name);
 
-    async createServiceError(message: string, stack: string, request?: any, response?: any) {
-        let serviceError = {
-            'success': false,
-            'origen': GlobalReqOrigin.globalOrigin,
-            'message': message,
-            'serviceid': "MSTemplateNestJs",
-            'documents': {
-                'error': stack,
-                'request': "",
-                'response': ""
-            }
+    async createServiceError(error: any, task: ITaskError) {
+        this.logger.write(task.description, task.name, true, GlobalReqOrigin.request);
+
+        if (error instanceof BusinessException) {
+            throw error;
         }
-        this._serviceErrorProvider.createServiceError(serviceError);
+        const dataError: IServiceError = {
+            origen: GlobalReqOrigin.globalOrigin,
+            message: error.message,
+            stack: error.stack,
+            request: GlobalReqOrigin.request,
+            channel: GlobalReqOrigin.requestHeaders
+        }
+        this._serviceErrorProvider.createServiceError(dataError);
+        // throw error;
     }
 
-    async getServiceErrors(page: number, limit: number, filter: any): Promise<ResponsePaginator<IServiceError>> {
-        const resultDate = GeneralUtil.validateDate(filter.startDate,filter.endDate);
-        if(resultDate === 1 || resultDate > 30){
-            throw new BusinessException(400, 'fechas de inicio mayor a final o fechas de mas de 30 dias');
+    async getServiceErrors(filter: any): Promise<any> {
+        let result = {
+            success: false,
+            message: '',
+            documents: []
+        }
+        const resultDate = GeneralUtil.validateDate(filter.startDate, filter.endDate);
+        if (resultDate === 1 || resultDate > 30) {
+            result.message = 'Error en fechas de consulta la fecha de inicio es mayor a la final o existen fechas de mas de 30 dias';
+            return result;
         }
 
+
         const query = {
-            createdAt: { 
+            createdAt: {
                 $gte: new Date(filter.startDate.toISOString()),
                 $lte: new Date(filter.endDate.toISOString())
             }
         };
-            if (filter != {}) {
-                const total: number = await this._serviceErrorProvider.getTotal(query);
-                if (total == 0) {
-                    this._serviceErrorProvider.createServiceError({
-                        'success': false,
-                        'origen': GlobalReqOrigin.globalOrigin,
-                        'message': "'No se encontró información con los filtros indicados'",
-                        'serviceid': "MSTemplateNestJs",
-                        'documents':{
-                        'error': "'No se encontró información con los filtros indicados'",
-                            'request':"",
-                            'response':""
-                        }
-                    });
-                    throw new BusinessException(400, 'No se encontró información con los filtros indicados');
-                }
-            }
 
-            const documents = await this._serviceErrorProvider.getServiceErrors(
-                page,
-                limit,
-                query
-            );
-            return new ResponsePaginator(documents, page, limit);
 
+        const documents = await this._serviceErrorProvider.getServiceErrors(
+            query
+        );
+        if (documents.length > 0) {
+            result.success = true;
+            result.message = 'Consulta ejecutada correctamente';
+            result.documents = documents
+            return result;
+
+        }
+        else {
+            result.message = 'No se encontraron resultados';
+            return result
+        }
     }
 }

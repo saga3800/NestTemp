@@ -1,22 +1,9 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-class Documentos extends Document {
-    @Prop()
-    error: string;
-
-    @Prop({default:""})
-    request: string;
-
-    @Prop({default:""})
-    response: string;
-}
 
 @Schema({ versionKey: false, timestamps: true })
 export class ServiceErrorModel extends Document {
-    @Prop({default: false})
-    success: boolean;
-
     @Prop()
     origen: string;
 
@@ -24,10 +11,13 @@ export class ServiceErrorModel extends Document {
     message: string;
 
     @Prop()
-    serviceid: string;
+    stack: string;
 
-    @Prop({ type: Documentos })
-    documents: Documentos;
+    @Prop()
+    channel: string;
+
+    @Prop({ type: Object, default: {} })
+    request: any;
 }
 
 export const ServiceErrorSchema =  SchemaFactory.createForClass(ServiceErrorModel);

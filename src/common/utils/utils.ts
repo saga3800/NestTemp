@@ -5,11 +5,12 @@ const FS = require("fs");
 import generalConfig from '../../common/configuration/general.config';
 import { BusinessException } from '../lib/business-exceptions';
 import { EmessageMapping } from "./enums/message.enum";
-import { Echannel, EtypeDocument } from "./enums/params.enum";
 import { Cache } from "cache-manager";
-import { MESSAGE } from '../configuration/messages/message.config';
 import { IMessage } from 'src/core/entity/message.entity';
 import { ParamUcimpl } from 'src/core/use-case/resource/impl/param.resource.uc.impl';
+import * as moment from 'moment';
+import { MappingStatusCode } from '../configuration/mapping-statuscode';
+import { EtypeDocument } from './enums/params.enum';
 const xml2js = require('xml2js');
 export default class GeneralUtil {
 
@@ -67,24 +68,11 @@ export default class GeneralUtil {
     return JSON.parse(jsonString);
   }
 
-
-  /**
+   /**
    * Determina si el canal indicado es valido
    * @param channel 
    * @returns 
    */
-  // public static validateChannel(channel: string): boolean {
-  //   if (Echannel[channel])
-  //     return true;
-  //   else
-  //     throw new BusinessException(
-  //       HttpStatus.BAD_REQUEST,
-  //       (channel == undefined) ? 'Debe indicar un canal válido.' : `${channel} no es un canal válido.`,
-  //       false,
-  //       {
-  //         codMessage: EmessageMapping.CHANNEL_ERROR
-  //       });
-  // }
 
   public static validateChannel(channel: string): boolean {
     if (ParamUcimpl.params.find(p => p.id_param == channel))
@@ -98,7 +86,7 @@ export default class GeneralUtil {
    * @param typeDoc 
    * @returns 
    */
-  public static transformTypeDoc(typeDoc: EtypeDocument): number {
+   public static transformTypeDoc(typeDoc: EtypeDocument): number {
     switch (typeDoc) {
       case EtypeDocument.CC:
         return 1;
@@ -135,7 +123,7 @@ export default class GeneralUtil {
    * @param url 
    * @returns 
    */
-  public static getOrigin(url: string): string {
+   public static getOrigin(url: string): string {
     return `${generalConfig.apiMapping}${(url?.includes('?')) ? url.slice(0, url.indexOf('?')) : url}`;
   }
 
@@ -194,6 +182,52 @@ export default class GeneralUtil {
     const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
     return Difference_In_Days;
   };
+
+  public static getDateUTC() {
+    return moment().format();
+  }
+
+  public static generateBusinessException(document: any, message: EmessageMapping, status: MappingStatusCode, success: boolean) {
+    throw new BusinessException(
+      status,
+      message,
+      success,
+      { document: { orders: document } }
+    );
+  }
+
+  /**
+   * Valida si la variable recibida es de valor true o false
+   * @param value 
+   * @returns boolean
+   */
+
+  public static validateBoolean(value: boolean): boolean {
+    if (value !== true)
+      return false
+
+    return true
+  }
+
+  /**
+* Valida si la variable recibida contiene el mismo valor que el string recibido
+* @param element
+* @param sentence 
+* @returns boolean
+*/
+
+  public static validateValueAndString(element: string, sentence: string): boolean {
+    if (element !== sentence)
+      return false
+
+    return true
+  }
+
+  public static ifExist(element: any): any {
+    if (element)
+      return element
+    return ''
+  }
 
 }
 
