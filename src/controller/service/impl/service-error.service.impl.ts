@@ -15,23 +15,18 @@ export class ServiceErrorService implements IServiceErrorService {
 
   private readonly logger = new Logging(ServiceErrorService.name);
 
-  async createServiceError(message: string, stack: string, request?: any, response?: any) {
-    this.logger.write('Traza de sendOrder', Etask.CREATE_SERVICE_ERROR);
-    this._serviceErrorUc.createServiceError(message, stack, request, response);
-  }
+  // async createServiceError(message: string, stack: string, request?: any, response?: any) {
+  //   this.logger.write('Traza de sendOrder', Etask.CREATE_SERVICE_ERROR);
+  //   this._serviceErrorUc.createServiceError(message, stack, request, response);
+  // }
 
-  async getServiceErrors(page: number, limit: number, filter: any): Promise<ResponseService<any>> {
-      const result = await this._serviceErrorUc.getServiceErrors(page, limit, filter._filter);
-      if(result){
-        console.log(result)
-      }
+  async getServiceErrors(filter: any): Promise<ResponseService<any>> {
+      const result = await this._serviceErrorUc.getServiceErrors(filter._filter);
       return new ResponseService(
-        true,
-        result
-          ? 'Consulta ejecutada correctamente.'
-          : 'No se encontraron datos.',
+        result.success,
+        result.message,
         200,
-        result,
-      );
+        result.documents,
+     );
   }
 }

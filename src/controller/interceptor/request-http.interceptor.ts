@@ -1,8 +1,9 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, HttpStatus, Logger } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import * as moment from 'moment';
 import { map, Observable, tap } from 'rxjs';
-import GeneralUtil from 'src/common/utils/utils';
+import General from 'src/common/utils/utils';
 import { ResponseService } from '../dto/response-service.dto';
+import { GlobalReqOrigin } from 'src/common/configuration/general.config';
 
 /**
  * Intercepta todas la solicitudes http que llegen al servicio para formatear la respuesta
@@ -17,6 +18,13 @@ export class RequestHttpInterceptor implements NestInterceptor<ResponseService> 
     const req = context.switchToHttp().getRequest();
     const resp = context.switchToHttp().getResponse();
 
+    GlobalReqOrigin.globalOrigin = General.getOrigin(context.getArgs()[0]['url']);
+    if (req?.body?.orders !== undefined) {
+      GlobalReqOrigin.client = req?.body?.client;
+      GlobalReqOrigin.request = req?.body;
+      GlobalReqOrigin.requestHeaders = req?.headers?.channel || "";
+    }
+
     return next.handle()
       .pipe(
         map(data => (
@@ -25,15 +33,14 @@ export class RequestHttpInterceptor implements NestInterceptor<ResponseService> 
             requestTime,
             responseTime: moment().diff(now),
             method: req.method,
-            origen: GeneralUtil.getOrigin(context.getArgs()[0]['url']),
+            origen: General.getOrigin(context.getArgs()[0]['url']),
             status: data?.status || resp?.statusCode
           }
         )),
         tap((_result: ResponseService) => {
-          Logger.log(`Response transaction => ${moment().format()} - ${_result.responseTime}ms - ${_result.process || ''} - ${req.method} - ${_result.origen} - ${_result.status} - ${_result.success} `);
+          // console.log(`Response transaction => ${moment().format()} - ${_result.responseTime}ms - ${_result.process || ''} - ${req.method} - ${_result.origen} - ${_result.status} - ${_result.success} `);
         })
       );
   }
 
 }
-
