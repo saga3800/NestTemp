@@ -15,9 +15,9 @@ export class ServiceErrorService implements IServiceErrorService {
 
   private readonly logger = new Logging(ServiceErrorService.name);
 
-  async createServiceError(serviceError: IServiceError) {
+  async createServiceError(message: string, stack: string, request?: any, response?: any) {
     this.logger.write('Traza de sendOrder', Etask.CREATE_SERVICE_ERROR);
-    this._serviceErrorUc.createServiceError(serviceError);
+    this._serviceErrorUc.createServiceError(message, stack, request, response);
   }
 
   async getServiceErrors(page: number, limit: number, filter: any): Promise<ResponseService<any>> {

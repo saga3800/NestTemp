@@ -48,17 +48,7 @@ export class ParamUcimpl implements IParamUc {
 
             }
         } catch (error) {
-            this._serviceError.createServiceError({
-                'success': false,
-                'origen': GlobalReqOrigin.globalOrigin,
-                'message': error.message,
-                'serviceid': "MSTemplateNestJs",
-                'documents': {
-                    'error': error.stack,
-                    'request': "",
-                    'response': ""
-                }
-            });
+            this._serviceError.createServiceError(error.message, error.stack);
             this.logger.write(`Error cargando parámetros`, Etask.LOAD_MESSAGE, true, error);
         } finally {
             // Actualizar variable estática

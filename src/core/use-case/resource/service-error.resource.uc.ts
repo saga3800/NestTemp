@@ -5,6 +5,6 @@ import { ResponsePaginator } from 'src/controller/dto/response-paginator.dto';
 @Injectable()
 export abstract class IServiceErrorUc {
 
-    abstract createServiceError(serviceError: IServiceError);
+    abstract createServiceError(message: string, stack: string, request?: any, response?: any);
     abstract getServiceErrors(page: number, limit: number, filter: any): Promise<ResponsePaginator<IServiceError>>;
 }

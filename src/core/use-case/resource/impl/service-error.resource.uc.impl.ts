@@ -14,7 +14,18 @@ export class ServiceErrorUcimpl implements IServiceErrorUc {
         private readonly _serviceErrorProvider: IServiceErrorProvider
     ) { }
 
-    async createServiceError(serviceError: IServiceError) {
+    async createServiceError(message: string, stack: string, request?: any, response?: any) {
+        let serviceError = {
+            'success': false,
+            'origen': GlobalReqOrigin.globalOrigin,
+            'message': message,
+            'serviceid': "MSTemplateNestJs",
+            'documents': {
+                'error': stack,
+                'request': "",
+                'response': ""
+            }
+        }
         this._serviceErrorProvider.createServiceError(serviceError);
     }
 
