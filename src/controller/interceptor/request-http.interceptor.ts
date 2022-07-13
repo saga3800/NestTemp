@@ -19,8 +19,7 @@ export class RequestHttpInterceptor implements NestInterceptor<ResponseService> 
     const resp = context.switchToHttp().getResponse();
 
     GlobalReqOrigin.globalOrigin = General.getOrigin(context.getArgs()[0]['url']);
-    if (req?.body?.orders !== undefined) {
-      GlobalReqOrigin.client = req?.body?.client;
+    if (req?.body !== undefined) {
       GlobalReqOrigin.request = req?.body;
       GlobalReqOrigin.requestHeaders = req?.headers?.channel || "";
     }
